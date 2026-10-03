@@ -954,14 +954,14 @@ a{color:inherit}
 .guide-face[data-face="feliz"].active ellipse[fill="var(--guide-blush)"],
 .guide-face[data-face="orgulloso"].active ellipse[fill="var(--guide-blush)"],
 .guide-face[data-face="emocionado"].active ellipse[fill="var(--guide-blush)"]{
-  animation:guideBlushPulse 1.6s var(--guide-ease) infinite;
+  animation:guideBlushPulse 4.8s var(--guide-ease) infinite;
 }
 .guide-face[data-face="feliz"].active path[fill="var(--guide-mouth)"],
 .guide-face[data-face="feliz"].active path[fill="var(--guide-tongue)"]{
-  animation:guideMouthLaugh 1.6s var(--guide-ease) infinite;
+  animation:guideMouthLaugh 4.8s var(--guide-ease) infinite;
 }
 .guide-face[data-face="feliz"].active path[stroke="var(--guide-eye)"]{
-  animation:guideEyeSquint 1.6s var(--guide-ease) infinite;
+  animation:guideEyeSquint 5.6s var(--guide-ease) infinite;
 }
 .guide-face[data-face="emocionado"].active path[fill="var(--guide-mouth)"],
 .guide-face[data-face="emocionado"].active path[fill="var(--guide-tongue)"]{
@@ -971,19 +971,19 @@ a{color:inherit}
   animation:guideEyeSparkle .9s var(--guide-ease) infinite;
 }
 
-#guide-head-emotion-motion.guide-motion-feliz{animation:guideHappyMotion 1.6s var(--guide-ease) infinite}
+#guide-head-emotion-motion.guide-motion-feliz{animation:guideHappyMotion 4.8s var(--guide-ease) infinite}
 #guide-head-emotion-motion.guide-motion-emocionado{animation:guideExcitedMotion .9s var(--guide-ease) infinite}
 #guide-head-emotion-motion.guide-motion-orgulloso{animation:guideProudMotion 5s var(--guide-ease) infinite}
 #guide-head-emotion-motion.guide-motion-curioso{animation:guideCuriousMotion 3.6s var(--guide-ease) infinite}
 #guide-head-emotion-motion.guide-motion-preocupado{animation:guideWorriedMotion 4.2s var(--guide-ease) infinite}
 
 /* Acción inicial / WhatsApp: Saludar */
-.guide-character-action.guide-action-wave{animation:guideWaveBody 2.4s var(--guide-ease) infinite}
-.guide-character-action.guide-action-wave #guide-arm-right{animation:guideWaveArm 2.4s var(--guide-ease) infinite}
-.guide-character-action.guide-action-wave #guide-arm-left{animation:guideWaveArmCounter 2.4s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave{animation:guideWaveBody 4.8s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave #guide-arm-right{animation:guideWaveArm 4.8s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave #guide-arm-left{animation:guideWaveArmCounter 4.8s var(--guide-ease) infinite}
 .guide-character-action.guide-action-wave #guide-leg-left,
-.guide-character-action.guide-action-wave #guide-leg-right{animation:guideWaveLeg 2.4s var(--guide-ease) infinite}
-.guide-character-action.guide-action-wave #guide-head-action-motion.guide-head-action-none{animation:guideWaveHead 2.4s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave #guide-leg-right{animation:guideWaveLeg 4.8s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave #guide-head-action-motion.guide-head-action-none{animation:guideWaveHead 4.8s var(--guide-ease) infinite}
 
 /* TikTok: Correr */
 .guide-character-action.guide-action-run{animation:guideRunBody .55s var(--guide-ease) infinite}
@@ -993,10 +993,10 @@ a{color:inherit}
 .guide-character-action.guide-action-run #guide-arm-right{animation:guideRunArm .55s var(--guide-ease) infinite}
 .guide-character-action.guide-action-run #guide-leg-right,
 .guide-character-action.guide-action-run #guide-arm-right{animation-delay:-.275s}
-.guide-character-action.guide-action-run #guide-head-action-motion.guide-head-action-none{animation:guideRunHead .55s var(--guide-ease) -.5s infinite}
+.guide-character-action.guide-action-run #guide-head-action-motion.guide-head-action-none{animation:guideRunHead .55s var(--guide-ease) infinite}
 
 /* Instagram: Mirar */
-.guide-character-action.guide-action-look{animation:guideLookBody 4s var(--guide-ease) -3.85s infinite}
+.guide-character-action.guide-action-look{animation:guideLookBody 4s var(--guide-ease) infinite}
 #guide-head-action-motion.guide-head-action-look{animation:guideHeadLook 4s var(--guide-ease) infinite}
 
 /* Facebook: Asentir */
@@ -1028,28 +1028,9 @@ a{color:inherit}
 }
 
 @keyframes guideFaceIn{from{opacity:0;transform:scale(.93) translateY(3px)}to{opacity:1;transform:none}}
-@keyframes guideHeadFloat{
-  0%,100%{transform:translate(0,0) rotate(-.5deg)}
-  28%{transform:translate(1.5px,-6px) rotate(.2deg)}
-  55%{transform:translate(.5px,-10px) rotate(.7deg)}
-  80%{transform:translate(-1.5px,-4px) rotate(-.2deg)}
-}
-@keyframes guideHappyMotion{
-  0%,100%{transform:translateY(0) rotate(0) scale(1)}
-  10%{transform:translateY(2.5px) rotate(.5deg) scale(1.025,.975)}
-  32%{transform:translateY(-8px) rotate(-2deg) scale(.985,1.025)}
-  48%{transform:translateY(1px) rotate(-.5deg) scale(1.02,.98)}
-  58%{transform:translateY(2.5px) rotate(-.5deg) scale(1.025,.975)}
-  80%{transform:translateY(-8px) rotate(2deg) scale(.985,1.025)}
-  94%{transform:translateY(1px) scale(1.01,.99)}
-}
-@keyframes guideExcitedMotion{
-  0%,100%{transform:translateY(0) rotate(0) scale(1)}
-  16%{transform:translateY(-7px) rotate(-2deg) scale(.985,1.025)}
-  34%{transform:translateY(1.5px) rotate(1.2deg) scale(1.025,.975)}
-  54%{transform:translateY(-6px) rotate(1.6deg) scale(.985,1.02)}
-  74%{transform:translateY(1px) rotate(-1deg) scale(1.02,.98)}
-}
+@keyframes guideHeadFloat{0%,100%{transform:translateY(0) rotate(-.3deg)}50%{transform:translateY(-3px) rotate(.3deg)}}
+@keyframes guideHappyMotion{0%,68%,100%{transform:translateY(0) rotate(0)}12%{transform:translateY(1px) rotate(.5deg)}26%{transform:translateY(-3px) rotate(-1.2deg)}40%{transform:translateY(0) rotate(.6deg)}54%{transform:translateY(-1px) rotate(-.3deg)}}
+@keyframes guideExcitedMotion{0%,100%{transform:rotate(-.6deg)}50%{transform:rotate(.6deg)}}
 @keyframes guideProudMotion{
   0%,100%{transform:translateY(0) rotate(0) scale(1)}
   22%{transform:translateY(-5px) rotate(.8deg) scale(1.02)}
@@ -1076,18 +1057,8 @@ a{color:inherit}
   66%{transform:rotate(.3deg)}
   78%{transform:rotate(-1deg)}
 }
-@keyframes guideRunHead{
-  0%,100%{transform:translateY(4px) rotate(1.4deg) scale(1.01,.99)}
-  25%,75%{transform:translateY(-4px) rotate(0) scale(.995,1.01)}
-  50%{transform:translateY(4px) rotate(-1.4deg) scale(1.01,.99)}
-}
-@keyframes guideWaveHead{
-  0%,100%{transform:rotate(0) translate(0,0)}
-  18%,36%,56%{transform:rotate(3deg) translate(2px,-1px)}
-  26%,46%,66%{transform:rotate(1.6deg) translate(1px,-1px)}
-  78%{transform:rotate(2.2deg) translate(1px,0)}
-  90%{transform:rotate(0) translate(0,0)}
-}
+@keyframes guideRunHead{0%,50%,100%{transform:translateY(2px) rotate(.7deg)}25%,75%{transform:translateY(-2px) rotate(-.7deg)}}
+@keyframes guideWaveHead{0%,64%,100%{transform:rotate(0)}20%,44%{transform:rotate(2deg) translateY(-1px)}32%{transform:rotate(1deg)}56%{transform:rotate(-.4deg)}}
 @keyframes guideShrinkHead{
   0%,100%{transform:translateY(0) rotate(0)}
   24%,64%{transform:translateY(4px) rotate(-1.5deg)}
@@ -1095,14 +1066,7 @@ a{color:inherit}
   54%{transform:translateY(4px) rotate(-.8deg)}
   82%{transform:translateY(0) rotate(0)}
 }
-@keyframes guideHeadLook{
-  0%,100%{transform:rotate(0) translateX(0)}
-  12%{transform:rotate(1deg) translateX(1px)}
-  24%,38%{transform:rotate(-3.5deg) translateX(-4px) scale(.99,1)}
-  52%{transform:rotate(-1deg)}
-  64%,78%{transform:rotate(3.5deg) translateX(4px) scale(.99,1)}
-  90%{transform:rotate(0) translateX(0)}
-}
+@keyframes guideHeadLook{0%,12%,90%,100%{transform:rotate(0) translateX(0)}26%,42%{transform:rotate(-3deg) translateX(-3px)}58%{transform:rotate(0)}70%,78%{transform:rotate(2deg) translateX(2px)}}
 @keyframes guideHeadNod{
   0%,66%,100%{transform:translateY(0) rotate(0)}
   8%{transform:translateY(-2px) rotate(-.6deg)}
@@ -1111,18 +1075,9 @@ a{color:inherit}
   44%{transform:translateY(5px) rotate(1.3deg) scale(1.01,.99)}
   56%{transform:translateY(0)}
 }
-@keyframes guideRunBody{
-  0%,100%{transform:translateY(3px) rotate(-1.6deg) scale(1.02,.975)}
-  25%,75%{transform:translateY(-8px) rotate(0) scale(.99,1.025)}
-  50%{transform:translateY(3px) rotate(1.6deg) scale(1.02,.975)}
-}
-@keyframes guideRunStep{
-  0%,100%{transform:translateY(0) rotate(-24deg)}
-  25%{transform:translateY(-10px) rotate(2deg)}
-  50%{transform:translateY(0) rotate(24deg)}
-  75%{transform:translateY(0) rotate(0)}
-}
-@keyframes guideRunArm{0%,100%{transform:rotate(calc(var(--s) * 30deg))}50%{transform:rotate(calc(var(--s) * -30deg))}}
+@keyframes guideRunBody{0%,50%,100%{transform:translateY(2px) rotate(-1deg) scale(1.015,.985)}25%,75%{transform:translateY(-7px) rotate(-1deg) scale(.99,1.015)}}
+@keyframes guideRunStep{0%,100%{transform:translateY(0) rotate(-23deg)}25%{transform:translateY(-8px) rotate(-3deg)}50%{transform:translateY(0) rotate(23deg)}75%{transform:translateY(0) rotate(0)}}
+@keyframes guideRunArm{0%,100%{transform:rotate(25deg)}50%{transform:rotate(-25deg)}}
 @keyframes guideLookBody{
   0%,100%{transform:translate(0,0) rotate(0)}
   24%,38%{transform:translate(-2px,-1px) rotate(-.8deg)}
@@ -1144,25 +1099,13 @@ a{color:inherit}
 @keyframes guideShrinkTorso{0%,100%{transform:translateY(0) scaleY(1)}24%,62%{transform:translateY(-4px) scaleY(.98)}82%{transform:translateY(0) scaleY(1)}}
 @keyframes guideShrinkArm{0%,100%{transform:rotate(0)}10%{transform:rotate(calc(var(--s) * 3deg))}24%,62%{transform:rotate(calc(var(--s) * -14deg))}82%{transform:rotate(0)}}
 @keyframes guideShrinkLeg{0%,100%{transform:rotate(0)}24%,62%{transform:rotate(calc(var(--s) * 3deg))}82%{transform:rotate(0)}}
-@keyframes guideWaveBody{0%,100%{transform:translateY(0) rotate(0)}14%,84%{transform:translateY(-1.5px) rotate(-1.2deg)}}
-@keyframes guideWaveArm{
-  0%,100%{transform:rotate(0)}
-  6%{transform:rotate(8deg)}
-  18%{transform:rotate(-84deg)}
-  26%{transform:rotate(-60deg)}
-  36%{transform:rotate(-80deg)}
-  46%{transform:rotate(-58deg)}
-  56%{transform:rotate(-76deg)}
-  66%{transform:rotate(-62deg)}
-  76%{transform:rotate(-72deg)}
-  86%{transform:rotate(-66deg)}
-  94%{transform:rotate(3deg)}
-}
-@keyframes guideWaveArmCounter{0%,100%{transform:rotate(0)}20%,80%{transform:rotate(-3deg)}}
-@keyframes guideWaveLeg{0%,100%{transform:rotate(0)}14%,84%{transform:rotate(calc(var(--s) * 1.2deg))}}
-@keyframes guideBlushPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1,1.08);opacity:.85}}
-@keyframes guideMouthLaugh{0%,100%,48%,94%{transform:scale(1)}32%,80%{transform:scale(1.04,1.12)}}
-@keyframes guideEyeSquint{0%,100%,48%,94%{transform:scale(1)}32%,80%{transform:scale(1.06,1.12)}}
+@keyframes guideWaveBody{0%,64%,100%{transform:translateY(0) rotate(0)}10%{transform:translateY(2px) rotate(.8deg)}20%,44%{transform:translateY(-2px) rotate(-1deg)}56%{transform:translateY(0) rotate(.3deg)}}
+@keyframes guideWaveArm{0%,64%,100%{transform:rotate(0)}8%{transform:rotate(7deg)}18%{transform:rotate(-78deg)}26%{transform:rotate(-56deg)}34%{transform:rotate(-82deg)}42%{transform:rotate(-58deg)}50%{transform:rotate(-74deg)}60%{transform:rotate(3deg)}}
+@keyframes guideWaveArmCounter{0%,64%,100%{transform:rotate(0)}18%,48%{transform:rotate(-5deg)}}
+@keyframes guideWaveLeg{0%,64%,100%{transform:rotate(0)}18%,48%{transform:rotate(calc(var(--s) * 1.5deg))}}
+@keyframes guideBlushPulse{0%,100%{opacity:1}50%{opacity:.88}}
+@keyframes guideMouthLaugh{0%,68%,100%{transform:scale(1)}26%,42%{transform:scale(1.025,1.06)}}
+@keyframes guideEyeSquint{0%,24%,29%,100%{transform:scaleY(1)}26%{transform:scaleY(.15)}}
 @keyframes guideMouthExc{0%,100%{transform:scale(1)}16%,54%{transform:scale(1.05,1.14)}34%,74%{transform:scale(1)}}
 @keyframes guideEyeSparkle{0%,100%,34%,74%{transform:scale(1)}16%,54%{transform:scale(1.12)}}
 
@@ -1316,18 +1259,7 @@ a{color:inherit}
   77%{transform:translateY(-4px) rotate(-.5deg)}
   88%{transform:translateY(0) rotate(0)}
 }
-@keyframes maintenanceJumpBody{
-  0%{transform:translateY(0) scale(1);animation-timing-function:var(--maintenance-ease)}
-  6%{transform:translateY(1px) scale(1.01,.99);animation-timing-function:var(--maintenance-ease)}
-  14%{transform:translateY(7px) scale(1.09,.86);animation-timing-function:cubic-bezier(.2,.8,.3,1)}
-  28%{transform:translateY(-40px) scale(.93,1.12);animation-timing-function:cubic-bezier(.3,0,.6,1)}
-  42%{transform:translateY(-46px) scale(1.01,.99) rotate(-2deg);animation-timing-function:cubic-bezier(.55,0,.9,.6)}
-  60%{transform:translateY(0) scale(.95,1.1) rotate(0);animation-timing-function:cubic-bezier(.2,.8,.3,1)}
-  66%{transform:translateY(5px) scale(1.12,.84);animation-timing-function:var(--maintenance-ease-out)}
-  76%{transform:translateY(-4px) scale(.98,1.02);animation-timing-function:var(--maintenance-ease)}
-  86%{transform:translateY(0) scale(1.01,.99)}
-  92%,100%{transform:translateY(0) scale(1)}
-}
+@keyframes maintenanceJumpBody{0%,8%,78%,100%{transform:translateY(0) scale(1)}16%{transform:translateY(5px) scale(1.05,.94)}30%{transform:translateY(-32px) scale(.97,1.04)}42%{transform:translateY(-37px) scale(1)}58%{transform:translateY(0) scale(1.06,.93)}68%{transform:translateY(-2px) scale(.99,1.01)}}
 @keyframes maintenanceJumpArm{
   0%,90%,100%{transform:rotate(0)}
   14%{transform:rotate(calc(var(--s) * -20deg))}
@@ -1463,6 +1395,18 @@ a{color:inherit}
   }
   .behance-maintenance__arrow{animation:none!important}
 }
+
+
+/* Coordinated secondary motion; existing reduced-motion overrides still apply. */
+.guide-character-action.guide-action-run #guide-head-float,
+.guide-character-action.guide-action-wave #guide-head-float{animation:none}
+.guide-character-action.guide-action-look #guide-head-emotion-motion,
+.guide-character-action.guide-action-nod #guide-head-emotion-motion{animation:none}
+.guide-face.active [data-eye],.guide-face.active [data-pupil]{transform-box:fill-box;transform-origin:center;animation:guideBlink 6.2s linear infinite}
+@keyframes guideBlink{0%,42%,46%,100%{transform:scaleY(1)}44%{transform:scaleY(.08)}}
+.social-guide:not(.is-visible) *,
+.behance-maintenance:not(.is-open) *{animation-play-state:paused!important}
+html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{animation-play-state:paused!important}
 
 </style>
 </head>
@@ -1891,13 +1835,12 @@ a{color:inherit}
     }
   };
 
-  /* Destinos oficiales generales. Sustituir por los perfiles exactos de ALHAUS
-     cuando estén disponibles. Behance queda deliberadamente sin destino. */
+  /* Perfiles oficiales de ALHAUS. Behance permanece en mantenimiento. */
   const socialDestinations = {
-    tiktok:'https://www.tiktok.com/',
-    instagram:'https://www.instagram.com/',
-    facebook:'https://www.facebook.com/',
-    whatsapp:'https://web.whatsapp.com/'
+    tiktok:'https://www.tiktok.com/@alhaus.arquitectos',
+    instagram:'https://www.instagram.com/alhaus.arquitectos/',
+    facebook:'https://www.facebook.com/alhaus.arquitectos',
+    whatsapp:'https://api.whatsapp.com/message/ZRFTKPFRTI5YM1?autoload=1&app_absent=0'
   };
 
   let activeIndex = -1;
@@ -2224,7 +2167,7 @@ a{color:inherit}
   }
 
   function setGuideEmotion(emotion){
-    if(!guideHeadEmotion) return;
+    if(!guideHeadEmotion || guideHeadEmotion.classList.contains(`guide-motion-${emotion}`)) return;
     guideHeadEmotion.classList.remove(...guideEmotionClasses);
     guideHeadEmotion.classList.add(`guide-motion-${emotion}`);
     guideFaces.forEach(face => {
@@ -2235,7 +2178,7 @@ a{color:inherit}
   }
 
   function setGuideAction(action){
-    if(!guideAction || !guideHeadAction) return;
+    if(!guideAction || !guideHeadAction || guideAction.classList.contains(`guide-action-${action}`)) return;
     guideAction.classList.remove(...guideActionClasses);
     guideAction.classList.add(`guide-action-${action}`);
     guideHeadAction.classList.remove(...guideHeadActionClasses);
@@ -3159,6 +3102,7 @@ a{color:inherit}
     }
   });
 })();
+document.addEventListener('visibilitychange',()=>document.documentElement.classList.toggle('is-page-hidden',document.hidden));
 </script>
 </body>
 </html>
