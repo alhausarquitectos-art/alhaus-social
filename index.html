@@ -1,0 +1,3164 @@
+<!doctype html>
+<html lang="es" data-social="none">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#26282a">
+<meta name="color-scheme" content="dark">
+<title>ALHAUS / Redes</title>
+<style>
+:root{
+  --bg:#eceae4;
+  --base-bg:#26282a;
+  --ink:#f2f1ed;
+  --muted:rgba(242,241,237,.58);
+  --hair:rgba(242,241,237,.12);
+  --hair-strong:rgba(242,241,237,.24);
+  --tiktok:#dedbd3;
+  --instagram:#c85a73;
+  --facebook:#315caf;
+  --behance:#274fae;
+  --whatsapp:#285f49;
+
+  /* La escena usa la misma familia cromática de cada ficha, llevada a un pastel suave. */
+  --bg-tiktok:#f1eee7;
+  --bg-instagram:#f2d9df;
+  --bg-facebook:#d9e3f5;
+  --bg-behance:#d6def2;
+  --bg-whatsapp:#d9e7df;
+  --scene-bg:var(--base-bg);
+
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-paper:cubic-bezier(.16,1.08,.3,1);
+  --ease-return:cubic-bezier(.16,1,.3,1);
+  --sans:"Aptos","Segoe UI",system-ui,-apple-system,sans-serif;
+  --display:"Arial Narrow","Aptos Display","Nimbus Sans Narrow",system-ui,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+}
+
+:root[data-social="none"]{--scene-bg:var(--base-bg);--ink:#f2f1ed;--muted:rgba(242,241,237,.58);--hair:rgba(242,241,237,.12);--hair-strong:rgba(242,241,237,.24)}
+:root[data-social="tiktok"]{--scene-bg:var(--bg-tiktok);--ink:#171815;--muted:rgba(23,24,21,.58);--hair:rgba(23,24,21,.12);--hair-strong:rgba(23,24,21,.22)}
+:root[data-social="instagram"]{--scene-bg:var(--bg-instagram);--ink:#171815;--muted:rgba(23,24,21,.58);--hair:rgba(23,24,21,.12);--hair-strong:rgba(23,24,21,.22)}
+:root[data-social="facebook"]{--scene-bg:var(--bg-facebook);--ink:#171815;--muted:rgba(23,24,21,.58);--hair:rgba(23,24,21,.12);--hair-strong:rgba(23,24,21,.22)}
+:root[data-social="behance"]{--scene-bg:var(--bg-behance);--ink:#171815;--muted:rgba(23,24,21,.58);--hair:rgba(23,24,21,.12);--hair-strong:rgba(23,24,21,.22)}
+:root[data-social="whatsapp"]{--scene-bg:var(--bg-whatsapp);--ink:#171815;--muted:rgba(23,24,21,.58);--hair:rgba(23,24,21,.12);--hair-strong:rgba(23,24,21,.22)}
+:root[data-social="whatsapp-special"]{--scene-bg:#2C3CA3;--ink:#f2f1ed;--muted:rgba(242,241,237,.68);--hair:rgba(242,241,237,.12);--hair-strong:rgba(242,241,237,.26)}
+
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;background:var(--scene-bg)}
+body{
+  min-height:100dvh;
+  overflow:hidden;
+  color:var(--ink);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+button,a{font:inherit;color:inherit}
+button{border:0}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--bg)}
+
+.page{
+  position:relative;
+  width:100%;
+  min-height:100dvh;
+  overflow:hidden;
+  isolation:isolate;
+  background:var(--scene-bg);
+  transition:background-color 300ms var(--ease-out);
+}
+.page::before{
+  content:"";
+  position:absolute;
+  inset:18px;
+  border:1px solid var(--hair);
+  pointer-events:none;
+  z-index:100;
+}
+
+.header{
+  position:absolute;
+  left:clamp(24px,3.3vw,54px);
+  right:clamp(24px,3.3vw,54px);
+  top:clamp(24px,3.4vh,40px);
+  z-index:60;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:28px;
+}
+.brand{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:5px;
+  min-width:0;
+}
+.brand__name{
+  font-family:var(--display);
+  font-size:clamp(18px,1.8vw,27px);
+  font-weight:800;
+  line-height:1;
+  letter-spacing:-.015em;
+  text-transform:uppercase;
+}
+.brand__scope{
+  color:var(--ink);
+  opacity:.72;
+  font-family:"Avenir Next","Helvetica Neue","Segoe UI",Arial,sans-serif;
+  font-size:11.5px;
+  font-weight:500;
+  line-height:1.25;
+  letter-spacing:.008em;
+}
+.header__label{
+  margin-top:2px;
+  color:var(--ink);
+  opacity:.66;
+  font-family:"Avenir Next","Helvetica Neue","Segoe UI",Arial,sans-serif;
+  font-size:11px;
+  font-weight:650;
+  line-height:1.2;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.archive-scene{
+  --slot-bottom:15.5vh;
+  --peek:128px;
+  position:absolute;
+  inset:76px clamp(22px,4.8vw,74px) 0;
+  z-index:10;
+}
+
+.rack{
+  position:absolute;
+  left:0;
+  right:0;
+  top:4vh;
+  bottom:var(--slot-bottom);
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:clamp(10px,1vw,18px);
+  align-items:stretch;
+  pointer-events:none;
+  isolation:isolate;
+}
+
+.folio{
+  --paper:#ddd;
+  --fg:#fff;
+  --tab-a:28%;
+  --tab-b:67%;
+  position:relative;
+  min-width:0;
+  height:100%;
+  color:var(--fg);
+  background:var(--paper);
+  clip-path:polygon(
+    0 20px,
+    12% 20px,
+    18% 0,
+    var(--tab-a) 0,
+    calc(var(--tab-a) + 8%) 20px,
+    var(--tab-b) 20px,
+    calc(var(--tab-b) + 7%) 0,
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+  transform:translate3d(0,calc(100% - var(--peek)),0);
+  transform-origin:center bottom;
+  z-index:var(--z,1);
+  overflow:hidden;
+  pointer-events:none;
+  user-select:none;
+  transition:transform 280ms var(--ease-paper);
+  will-change:transform;
+}
+.folio::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-top:1px solid rgba(255,255,255,.34);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);
+  pointer-events:none;
+}
+.folio::after{
+  content:"";
+  position:absolute;
+  left:24px;
+  right:24px;
+  top:66px;
+  height:1px;
+  background:currentColor;
+  opacity:.18;
+  pointer-events:none;
+}
+.folio[data-active="true"]{
+  transform:translate3d(0,0,0);
+  z-index:30;
+  user-select:text;
+  pointer-events:auto;
+}
+
+.folio--tiktok{--paper:var(--tiktok);--fg:#161714;--z:5;--tab-a:26%;--tab-b:64%}
+.folio--instagram{--paper:var(--instagram);--z:4;--tab-a:31%;--tab-b:69%}
+.folio--facebook{--paper:var(--facebook);--z:3;--tab-a:24%;--tab-b:61%}
+.folio--behance{--paper:var(--behance);--z:2;--tab-a:34%;--tab-b:72%}
+.folio--whatsapp{--paper:var(--whatsapp);--z:1;--tab-a:29%;--tab-b:66%}
+
+.folio__head{
+  position:absolute;
+  left:clamp(18px,1.8vw,28px);
+  right:clamp(18px,1.8vw,28px);
+  top:28px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.folio__name{
+  margin:0;
+  font-family:var(--display);
+  font-size:clamp(18px,1.8vw,27px);
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-.015em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.folio__mark{
+  width:28px;
+  height:28px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  opacity:.9;
+}
+.folio__mark svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.5}
+.folio__mark--behance{
+  font-family:var(--display);
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:-.04em;
+}
+.folio__body{
+  position:absolute;
+  left:clamp(20px,2vw,30px);
+  right:clamp(20px,2vw,30px);
+  top:50%;
+  transform:translateY(-42%);
+  opacity:0;
+  transition:opacity 150ms var(--ease-out);
+}
+.folio[data-active="true"] .folio__body{opacity:1}
+.folio__statement{
+  margin:0;
+  max-width:13ch;
+  font-family:var(--display);
+  font-size:clamp(30px,2.9vw,46px);
+  line-height:.88;
+  letter-spacing:-.045em;
+  font-weight:850;
+  text-wrap:balance;
+}
+.folio__footer{
+  position:absolute;
+  left:clamp(20px,2vw,30px);
+  right:clamp(20px,2vw,30px);
+  bottom:26px;
+  display:grid;
+  gap:18px;
+  opacity:0;
+  transition:opacity 150ms var(--ease-out);
+}
+.folio[data-active="true"] .folio__footer{opacity:1}
+.folio__copy{
+  margin:0;
+  max-width:34ch;
+  font-family:var(--serif);
+  font-size:12px;
+  line-height:1.48;
+}
+.folio__action{
+  justify-self:start;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-width:44px;
+  min-height:44px;
+  padding:0 2px;
+  text-decoration:none;
+  font-size:11px;
+  line-height:1;
+  transition:transform 160ms var(--ease-out),opacity 160ms var(--ease-out);
+  pointer-events:auto;
+}
+.folio__action::after{content:"↗";font-size:13px}
+.folio__action:active{transform:scale(.97)}
+.folio__action:focus-visible{outline:2px solid currentColor;outline-offset:5px}
+.folio__action[aria-disabled="true"]{opacity:.46;cursor:default}
+.folio__action[aria-disabled="true"]::after{content:""}
+
+.slot-line{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:var(--slot-bottom);
+  height:1px;
+  z-index:42;
+  background:var(--hair-strong);
+  pointer-events:none;
+}
+.slot-line::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:-1px;
+  width:72px;
+  height:2px;
+  background:var(--ink);
+  opacity:.34;
+}
+
+.slot-mask{
+  position:absolute;
+  left:-5vw;
+  right:-5vw;
+  bottom:0;
+  height:var(--slot-bottom);
+  z-index:40;
+  background:var(--scene-bg);
+  transition:background-color 300ms var(--ease-out);
+  pointer-events:none;
+}
+.slot-mask::before{
+  content:"";
+  position:absolute;
+  left:5vw;
+  right:5vw;
+  top:0;
+  height:1px;
+  background:var(--hair);
+}
+
+.channel-tabs{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:var(--slot-bottom);
+  height:var(--peek);
+  z-index:50;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:clamp(10px,1vw,18px);
+  transform:none;
+}
+.channel-tab{
+  position:relative;
+  min-width:0;
+  height:100%;
+  padding:0;
+  background:transparent;
+  color:transparent;
+  cursor:inherit;
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.channel-tab::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:1px;
+  background:transparent;
+  transition:background-color 140ms ease;
+}
+.channel-tab:focus-visible::before{background:var(--ink)}
+.channel-tab:active{transform:scale(.99)}
+
+@keyframes folioClickWobbleMobile{
+  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
+  18%{transform:translate3d(0,-3px,0) rotate(-.38deg)}
+  36%{transform:translate3d(0,2px,0) rotate(.32deg)}
+  54%{transform:translate3d(0,-2px,0) rotate(-.18deg)}
+  72%{transform:translate3d(0,1px,0) rotate(.1deg)}
+}
+@keyframes folioClickWobbleDesktop{
+  0%,100%{transform:translate3d(0,-10px,0) rotate(0deg)}
+  18%{transform:translate3d(0,-14px,0) rotate(-.45deg)}
+  36%{transform:translate3d(0,-7px,0) rotate(.36deg)}
+  54%{transform:translate3d(0,-12px,0) rotate(-.2deg)}
+  72%{transform:translate3d(0,-9px,0) rotate(.1deg)}
+}
+@keyframes whatsappPressMobile{
+  0%,100%{transform:translate3d(0,0,0)}
+  28%{transform:translate3d(0,9px,0)}
+  62%{transform:translate3d(0,-7px,0)}
+  82%{transform:translate3d(0,2px,0)}
+}
+@keyframes whatsappPressDesktop{
+  0%,100%{transform:translate3d(0,-10px,0)}
+  28%{transform:translate3d(0,-2px,0)}
+  62%{transform:translate3d(0,-18px,0)}
+  82%{transform:translate3d(0,-8px,0)}
+}
+.folio.is-clicked{animation:folioClickWobbleMobile 540ms cubic-bezier(.22,.74,.18,1)}
+.folio.is-whatsapp-clicked{animation:whatsappPressMobile 560ms cubic-bezier(.23,1,.32,1)}
+
+/* Cursor ALHAUS: triángulo equilátero real, hueco y con rotación por ficha.
+   El contenedor sigue el puntero sin transición; solo gira la forma interior. */
+.custom-cursor{display:none}
+@media (hover:hover) and (pointer:fine){
+  body,
+  button,
+  a,
+  .channel-tab{cursor:none!important}
+
+  .custom-cursor{
+    position:fixed;
+    left:0;
+    top:0;
+    z-index:2147483647;
+    display:block;
+    width:42px;
+    height:42px;
+    pointer-events:none;
+    transform:translate3d(-100px,-100px,0);
+    will-change:transform;
+  }
+  .custom-cursor__shape{
+    position:absolute;
+    inset:0;
+    display:block;
+    width:100%;
+    height:100%;
+    overflow:visible;
+    transform-origin:50% 50%;
+    transition:transform 180ms var(--ease-out),opacity 120ms ease;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.24));
+  }
+  .custom-cursor__shape--square{
+    opacity:1;
+    transform:rotate(0deg);
+  }
+  .custom-cursor__shape--triangle{
+    opacity:0;
+    transform:rotate(var(--cursor-angle,0deg));
+  }
+  .custom-cursor.is-over-folio .custom-cursor__shape--square{
+    opacity:0;
+    transform:rotate(-18deg) scale(.92);
+  }
+  .custom-cursor.is-over-folio .custom-cursor__shape--triangle{
+    opacity:1;
+    transform:rotate(var(--cursor-angle,0deg));
+  }
+  .custom-cursor.is-logo-flight .custom-cursor__shape--square{
+    opacity:0;
+    transform:rotate(-18deg) scale(.92);
+  }
+  .custom-cursor.is-logo-flight .custom-cursor__shape--triangle{
+    opacity:1;
+    transform:rotate(0deg);
+  }
+  .custom-cursor__outline{
+    fill:none;
+    stroke:#f2f2ee;
+    stroke-width:4.8;
+    stroke-linejoin:miter;
+    stroke-linecap:square;
+    vector-effect:non-scaling-stroke;
+  }
+}
+
+.whatsapp-logo-exact{display:none}
+@media (hover:hover) and (pointer:fine){
+  .whatsapp-logo-exact{
+    position:fixed;
+    left:50%;
+    top:50%;
+    z-index:2147483646;
+    display:block;
+    width:132px;
+    height:132px;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    opacity:0;
+    transition:opacity 160ms var(--ease-out);
+  }
+  .whatsapp-logo-exact.is-visible{opacity:1}
+  .whatsapp-logo-exact svg{
+    display:block;
+    width:100%;
+    height:100%;
+    overflow:visible;
+  }
+  .whatsapp-logo-exact .logo-stroke{
+    fill:none;
+    stroke:#fff;
+    stroke-width:27.5;
+    stroke-linecap:butt;
+    stroke-linejoin:miter;
+  }
+  .whatsapp-logo-exact .logo-piece{
+    opacity:0;
+    transform-box:fill-box;
+    transform-origin:center;
+    transform:scale(.9);
+    transition:transform 230ms var(--ease-out),opacity 150ms var(--ease-out);
+  }
+  .whatsapp-logo-exact.is-visible .logo-piece{opacity:1;transform:none}
+  @keyframes logoPieceScatter{
+    0%{opacity:1;transform:translate(0,0) rotate(0deg) scale(1)}
+    90%{opacity:1}
+    100%{opacity:0;transform:translate(var(--scatter-x,0px),var(--scatter-y,0px)) rotate(var(--scatter-r,0deg)) scale(var(--scatter-s,.58))}
+  }
+  .whatsapp-logo-exact.is-scattering .logo-piece{
+    animation:logoPieceScatter 1370ms cubic-bezier(.16,.72,.18,1) both;
+  }
+  .whatsapp-logo-exact.is-scattering .logo-piece--q1{animation-duration:1320ms}
+  .whatsapp-logo-exact.is-scattering .logo-piece--q2{animation-duration:1420ms}
+  .whatsapp-logo-exact.is-scattering .logo-piece--d{animation-duration:1370ms}
+  .custom-cursor.is-post-logo .custom-cursor__shape--square{opacity:0;transform:rotate(-38deg) scale(.84)}
+  .custom-cursor.is-post-logo .custom-cursor__shape--triangle{opacity:1;transform:rotate(0deg) scale(1)}
+  .custom-cursor.is-returning-square .custom-cursor__shape--square{
+    opacity:1;
+    transform:rotate(0deg) scale(1);
+    transition:transform 560ms cubic-bezier(.22,.74,.18,1),opacity 220ms 150ms ease;
+  }
+  .custom-cursor.is-returning-square .custom-cursor__shape--triangle{
+    opacity:0;
+    transform:rotate(72deg) scale(.76);
+    transition:transform 560ms cubic-bezier(.22,.74,.18,1),opacity 210ms 50ms ease;
+  }
+}
+
+.status{
+  position:absolute;
+  left:clamp(24px,3.3vw,54px);
+  bottom:clamp(24px,3.4vh,40px);
+  z-index:70;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.2;
+}
+.status__touch{display:none}
+
+.archive-scene.keyboard-nav .folio{transition:none}
+.archive-scene.keyboard-nav .folio__body,
+.archive-scene.keyboard-nav .folio__footer{transition:none}
+
+/* Durante la secuencia del isotipo, el puntero físico no puede activar fichas. */
+@media (hover:hover) and (pointer:fine){
+  .archive-scene.cursor-sequence-lock .channel-tab,
+  .archive-scene.cursor-sequence-lock .folio{pointer-events:none!important}
+}
+
+@media (hover:hover) and (pointer:fine){
+  .folio[data-active="true"]{transform:translate3d(0,-10px,0)}
+  .folio.is-clicked{animation-name:folioClickWobbleDesktop}
+  .folio.is-whatsapp-clicked{animation-name:whatsappPressDesktop}
+}
+
+@media (min-width:761px){
+  /* Ajuste óptico individual: Instagram/Facebook conservan exactamente su escala. */
+  .folio--tiktok .folio__statement{font-size:clamp(26px,2.22vw,36px);max-width:9.5ch;line-height:.92;letter-spacing:-.038em}
+  .folio--behance .folio__statement{font-size:clamp(26px,2.18vw,35px);max-width:9.2ch;line-height:.92;letter-spacing:-.038em}
+  .folio--whatsapp .folio__statement{font-size:clamp(25px,2.1vw,34px);max-width:10.8ch;line-height:.92;letter-spacing:-.037em}
+}
+
+@media (max-width:900px){
+  .archive-scene{
+    inset:76px 24px 0;
+    --peek:108px;
+  }
+  .rack{gap:8px}
+  .channel-tabs{gap:8px}
+  .folio__statement{font-size:clamp(28px,4.5vw,46px)}
+}
+
+@media (max-width:760px){
+  .page::before{inset:10px}
+  .header{
+    left:20px;
+    right:20px;
+    top:20px;
+  }
+  .brand{max-width:72%;gap:4px}
+  .brand__name{font-size:24px}
+  .brand__scope{
+    display:block;
+    max-width:26ch;
+    font-size:9.8px;
+    line-height:1.22;
+    opacity:.7;
+  }
+  .header__label{
+    margin-top:1px;
+    font-size:9.2px;
+    letter-spacing:.045em;
+  }
+
+  .archive-scene{
+    --slot-bottom:96px;
+    --peek:76px;
+    inset:64px 14px 0;
+  }
+  .rack{
+    left:0;
+    right:0;
+    top:18px;
+    bottom:var(--slot-bottom);
+    display:block;
+  }
+  .folio{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    clip-path:polygon(
+      0 18px,
+      10% 18px,
+      15% 0,
+      56% 0,
+      61% 18px,
+      100% 18px,
+      100% 100%,
+      0 100%
+    );
+    transform:translate3d(0,calc(100% - var(--peek)),0);
+    visibility:hidden;
+  }
+  .folio[data-active="true"]{
+    visibility:visible;
+    transform:translate3d(0,0,0);
+  }
+  .folio__head{
+    left:22px;
+    right:22px;
+    top:24px;
+  }
+  .folio__name{font-size:24px}
+  .folio__mark{width:26px;height:26px}
+  .folio__body{
+    left:22px;
+    right:22px;
+    top:43%;
+    transform:translateY(-50%);
+  }
+  .folio__statement{
+    max-width:11ch;
+    font-size:clamp(42px,13vw,72px);
+    line-height:.84;
+  }
+  .folio--tiktok .folio__statement{font-size:clamp(37px,11.3vw,58px);max-width:10.4ch;line-height:.88}
+  .folio--behance .folio__statement{font-size:clamp(38px,11.5vw,59px);max-width:10ch;line-height:.88}
+  .folio--whatsapp .folio__statement{font-size:clamp(36px,10.9vw,56px);max-width:10.6ch;line-height:.88}
+  .folio__footer{
+    left:22px;
+    right:22px;
+    bottom:22px;
+    gap:12px;
+  }
+  .folio__copy{font-size:13px;max-width:28ch}
+
+  .slot-line{bottom:var(--slot-bottom)}
+  .slot-mask{height:var(--slot-bottom);left:-14px;right:-14px}
+
+  .channel-tabs{
+    left:0;
+    right:0;
+    bottom:20px;
+    height:58px;
+    transform:none;
+    gap:6px;
+    z-index:70;
+  }
+  .channel-tab{
+    --tab:#fff;
+    color:var(--ink);
+    overflow:hidden;
+  }
+  .channel-tab::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:var(--tab);
+    clip-path:polygon(0 12px,15% 12px,25% 0,100% 0,100% 100%,0 100%);
+    opacity:.72;
+    transition:opacity 140ms ease;
+  }
+  .channel-tab[aria-selected="true"]::after{opacity:1}
+  .channel-tab[data-social="tiktok"]{--tab:var(--tiktok)}
+  .channel-tab[data-social="instagram"]{--tab:var(--instagram)}
+  .channel-tab[data-social="facebook"]{--tab:var(--facebook)}
+  .channel-tab[data-social="behance"]{--tab:var(--behance)}
+  .channel-tab[data-social="whatsapp"]{--tab:var(--whatsapp)}
+  .channel-tab:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .channel-tab:focus-visible::before{display:none}
+  .channel-tab__label{
+    position:absolute;
+    left:50%;
+    top:50%;
+    z-index:2;
+    transform:translate(-50%,-34%);
+    color:#fff;
+    font-family:var(--display);
+    font-size:9px;
+    line-height:1;
+    font-weight:800;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+  }
+  .channel-tab[data-social="tiktok"] .channel-tab__label{color:#171815}
+
+  .status{display:none}
+}
+
+@media (max-width:350px){
+  .header{left:18px;right:18px;gap:12px}
+  .brand{max-width:74%}
+  .brand__scope{font-size:9.2px}
+  .header__label{font-size:8.6px;letter-spacing:.035em}
+}
+
+@media (max-width:390px){
+  .archive-scene{left:10px;right:10px}
+  .channel-tabs{gap:4px}
+  .channel-tab__label{font-size:8px}
+  .folio--instagram .folio__statement,
+  .folio--facebook .folio__statement{font-size:clamp(38px,12vw,58px)}
+  .folio--tiktok .folio__statement{font-size:clamp(34px,10.5vw,50px)}
+  .folio--behance .folio__statement{font-size:clamp(35px,10.7vw,51px)}
+  .folio--whatsapp .folio__statement{font-size:clamp(33px,10.1vw,49px)}
+}
+
+@media (max-height:660px) and (min-width:761px){
+  .archive-scene{--slot-bottom:13vh;--peek:108px;top:68px}
+  .folio__statement{font-size:clamp(28px,3.2vw,48px)}
+  .folio__footer{bottom:18px}
+}
+
+
+/* Escena especial de WhatsApp para touch/mobile. */
+.mobile-whatsapp-special{
+  display:none;
+}
+@media (max-width:760px) and (hover:none), (max-width:760px) and (pointer:coarse){
+  .mobile-whatsapp-special{
+    position:fixed;
+    inset:-5px;
+    z-index:2147483600;
+    display:grid;
+    place-items:center;
+    background:#2C3CA3;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translate3d(0,0,0);
+    transition:opacity 240ms var(--ease-out), visibility 0s linear 240ms;
+  }
+  .mobile-whatsapp-special.is-visible{
+    opacity:1;
+    visibility:visible;
+    transition:opacity 220ms var(--ease-out), visibility 0s;
+  }
+  .mobile-whatsapp-special__logo{
+    position:relative;
+    width:clamp(132px,39vw,170px);
+    aspect-ratio:1;
+    opacity:0;
+    transform:scale(.86);
+    transition:transform 420ms cubic-bezier(.16,1,.3,1),opacity 180ms ease;
+  }
+  .mobile-whatsapp-special.is-logo-visible .mobile-whatsapp-special__logo{
+    opacity:1;
+    transform:scale(1);
+  }
+  .mobile-whatsapp-piece{
+    position:absolute;
+    inset:0;
+    display:block;
+    transform-origin:50% 50%;
+    will-change:transform;
+  }
+  .mobile-whatsapp-piece svg{display:block;width:100%;height:100%;overflow:visible}
+  .mobile-whatsapp-special__logo .logo-stroke{
+    fill:none;
+    stroke:#fff;
+    stroke-width:27.5;
+    stroke-linecap:butt;
+    stroke-linejoin:miter;
+  }
+  /* Las órbitas se calculan con WAAPI a partir de la posición real de cada figura.
+     Así cada pieza viaja alrededor del centro sin rotar sobre su propio eje. */
+  .mobile-whatsapp-special.is-orbiting .mobile-whatsapp-piece{transform:translate3d(0,0,0)}
+  @keyframes mobileWhatsappVibrate{
+    0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
+    12%{transform:translate3d(-2px,1px,0) rotate(-.12deg)}
+    25%{transform:translate3d(2px,-1px,0) rotate(.14deg)}
+    38%{transform:translate3d(-1px,-2px,0) rotate(-.09deg)}
+    52%{transform:translate3d(2px,2px,0) rotate(.1deg)}
+    66%{transform:translate3d(-1px,1px,0) rotate(-.06deg)}
+    82%{transform:translate3d(1px,-1px,0) rotate(.04deg)}
+  }
+  .mobile-whatsapp-special.is-vibrating{
+    animation:mobileWhatsappVibrate 430ms cubic-bezier(.36,.07,.19,.97) both;
+  }
+  .page.is-mobile-whatsapp-vibrating{
+    animation:mobileWhatsappVibrate 430ms cubic-bezier(.36,.07,.19,.97) both;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .folio,
+  .folio__body,
+  .folio__footer,
+  .folio__action{transition-duration:1ms!important}
+  .folio.is-clicked,
+  .folio.is-whatsapp-clicked{animation:none!important}
+  .custom-cursor__shape,
+  .custom-cursor,
+  .whatsapp-logo-exact,
+  .whatsapp-logo-exact .logo-piece,
+  .mobile-whatsapp-special,
+  .mobile-whatsapp-special__logo{transition:none!important}
+  .mobile-whatsapp-special.is-vibrating,
+  .page.is-mobile-whatsapp-vibrating{animation:none!important}
+  .mobile-whatsapp-special.is-orbiting .mobile-whatsapp-piece{animation:none!important}
+  html,body,.page,.slot-mask{transition-duration:120ms!important}
+  .folio{transform:none!important}
+  .folio:not([data-active="true"]){visibility:hidden}
+}
+
+
+
+/* ==================================================
+   MASCOTA GUÍA / SVG REAL — aislada de la interfaz
+   ================================================== */
+.social-guide{
+  --guide-main:#1B60F6;
+  --guide-side:#053ECD;
+  --guide-module:#0c4cff;
+  --guide-module-inner:#4e7dff;
+  --guide-eye:#34130f;
+  --guide-mouth:#5b1512;
+  --guide-blush:#ff8977;
+  --guide-tongue:#ff6265;
+  --guide-ease:cubic-bezier(.45,.05,.55,.95);
+  --guide-ease-out:cubic-bezier(.22,1,.36,1);
+
+  position:fixed;
+  left:0;
+  top:0;
+  z-index:58;
+  width:min(190px,22vw);
+  pointer-events:none;
+  opacity:0;
+  transform:translate3d(var(--guide-x,-300px),var(--guide-y,-300px),0);
+  transition:transform 420ms cubic-bezier(.22,1,.36,1),opacity 180ms ease;
+  will-change:transform,opacity;
+}
+.social-guide.is-visible{opacity:1}
+.social-guide.is-teleporting{
+  opacity:0;
+  transition:opacity 100ms ease!important;
+}
+.social-guide.is-teleport-jump{
+  transition:none!important;
+}
+.social-guide__inner{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transform:translateY(-6px);
+  transition:transform 400ms cubic-bezier(.23,1,.32,1);
+}
+.social-guide.is-visible .social-guide__inner{transform:translateY(0)}
+.social-guide__character{
+  width:clamp(110px,9.5vw,150px);
+  max-width:160px;
+  aspect-ratio:1400/1240;
+  display:grid;
+  place-items:center;
+  transform:scale(1);
+  transform-origin:center center;
+  transition:transform 420ms cubic-bezier(.22,1,.36,1);
+}
+.social-guide.is-whatsapp-focus .social-guide__character{
+  transform:scale(2);
+}
+.social-guide.is-whatsapp-focus .social-guide__message{
+  margin-top:calc(8px + clamp(110px,9.5vw,150px));
+}
+.guide-character-action{
+  width:100%;
+  display:grid;
+  place-items:center;
+  transform-origin:50% 84%;
+  will-change:transform;
+}
+#guide-character-svg{
+  width:100%;
+  height:auto;
+  display:block;
+  overflow:visible;
+  background:transparent;
+}
+#guide-head-anchor{transform-box:fill-box}
+#guide-head-action-motion,
+#guide-head-float,
+#guide-head-emotion-motion{
+  transform-box:fill-box;
+  will-change:transform;
+}
+#guide-head-action-motion,
+#guide-head-emotion-motion{transform-origin:50% 55%}
+#guide-head-float{transform-origin:center;animation:guideHeadFloat 4.6s var(--guide-ease) infinite}
+#guide-head-svg{display:block;overflow:visible}
+#guide-arm-left,
+#guide-arm-right,
+#guide-leg-left,
+#guide-leg-right{
+  transform-box:fill-box;
+  will-change:transform;
+}
+#guide-arm-left{--s:1;transform-origin:right center}
+#guide-arm-right{--s:-1;transform-origin:left center}
+#guide-leg-left{--s:1;transform-origin:center top}
+#guide-leg-right{--s:-1;transform-origin:center top}
+#guide-torso{transform-box:fill-box;transform-origin:50% 100%}
+.guide-face{display:none}
+.guide-face.active{
+  display:block;
+  transform-box:fill-box;
+  transform-origin:50% 55%;
+  animation:guideFaceIn .3s var(--guide-ease-out) backwards;
+}
+.guide-face.active ellipse[fill="var(--guide-blush)"],
+.guide-face.active path[fill="var(--guide-mouth)"],
+.guide-face.active path[fill="var(--guide-tongue)"],
+.guide-face.active path[stroke="var(--guide-eye)"]{
+  transform-box:fill-box;
+  transform-origin:50% 20%;
+}
+.guide-face.active ellipse[fill="var(--guide-blush)"],
+.guide-face.active path[stroke="var(--guide-eye)"]{transform-origin:center}
+.guide-face[data-face="feliz"].active ellipse[fill="var(--guide-blush)"],
+.guide-face[data-face="orgulloso"].active ellipse[fill="var(--guide-blush)"],
+.guide-face[data-face="emocionado"].active ellipse[fill="var(--guide-blush)"]{
+  animation:guideBlushPulse 1.6s var(--guide-ease) infinite;
+}
+.guide-face[data-face="feliz"].active path[fill="var(--guide-mouth)"],
+.guide-face[data-face="feliz"].active path[fill="var(--guide-tongue)"]{
+  animation:guideMouthLaugh 1.6s var(--guide-ease) infinite;
+}
+.guide-face[data-face="feliz"].active path[stroke="var(--guide-eye)"]{
+  animation:guideEyeSquint 1.6s var(--guide-ease) infinite;
+}
+.guide-face[data-face="emocionado"].active path[fill="var(--guide-mouth)"],
+.guide-face[data-face="emocionado"].active path[fill="var(--guide-tongue)"]{
+  animation:guideMouthExc .9s var(--guide-ease) infinite;
+}
+.guide-face[data-face="emocionado"].active path[stroke="var(--guide-eye)"]{
+  animation:guideEyeSparkle .9s var(--guide-ease) infinite;
+}
+
+#guide-head-emotion-motion.guide-motion-feliz{animation:guideHappyMotion 1.6s var(--guide-ease) infinite}
+#guide-head-emotion-motion.guide-motion-emocionado{animation:guideExcitedMotion .9s var(--guide-ease) infinite}
+#guide-head-emotion-motion.guide-motion-orgulloso{animation:guideProudMotion 5s var(--guide-ease) infinite}
+#guide-head-emotion-motion.guide-motion-curioso{animation:guideCuriousMotion 3.6s var(--guide-ease) infinite}
+#guide-head-emotion-motion.guide-motion-preocupado{animation:guideWorriedMotion 4.2s var(--guide-ease) infinite}
+
+/* Acción inicial / WhatsApp: Saludar */
+.guide-character-action.guide-action-wave{animation:guideWaveBody 2.4s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave #guide-arm-right{animation:guideWaveArm 2.4s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave #guide-arm-left{animation:guideWaveArmCounter 2.4s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave #guide-leg-left,
+.guide-character-action.guide-action-wave #guide-leg-right{animation:guideWaveLeg 2.4s var(--guide-ease) infinite}
+.guide-character-action.guide-action-wave #guide-head-action-motion.guide-head-action-none{animation:guideWaveHead 2.4s var(--guide-ease) infinite}
+
+/* TikTok: Correr */
+.guide-character-action.guide-action-run{animation:guideRunBody .55s var(--guide-ease) infinite}
+.guide-character-action.guide-action-run #guide-leg-left,
+.guide-character-action.guide-action-run #guide-leg-right{animation:guideRunStep .55s var(--guide-ease) infinite}
+.guide-character-action.guide-action-run #guide-arm-left,
+.guide-character-action.guide-action-run #guide-arm-right{animation:guideRunArm .55s var(--guide-ease) infinite}
+.guide-character-action.guide-action-run #guide-leg-right,
+.guide-character-action.guide-action-run #guide-arm-right{animation-delay:-.275s}
+.guide-character-action.guide-action-run #guide-head-action-motion.guide-head-action-none{animation:guideRunHead .55s var(--guide-ease) -.5s infinite}
+
+/* Instagram: Mirar */
+.guide-character-action.guide-action-look{animation:guideLookBody 4s var(--guide-ease) -3.85s infinite}
+#guide-head-action-motion.guide-head-action-look{animation:guideHeadLook 4s var(--guide-ease) infinite}
+
+/* Facebook: Asentir */
+.guide-character-action.guide-action-nod{animation:guideNodBody 2.8s var(--guide-ease) infinite}
+.guide-character-action.guide-action-nod #guide-torso{animation:guideNodTorso 2.8s var(--guide-ease) infinite}
+#guide-head-action-motion.guide-head-action-nod{animation:guideHeadNod 2.8s var(--guide-ease) infinite}
+
+/* Behance: Encogerse */
+.guide-character-action.guide-action-shrink{animation:guideShrinkBody 3.6s var(--guide-ease) infinite}
+.guide-character-action.guide-action-shrink #guide-torso{animation:guideShrinkTorso 3.6s var(--guide-ease) infinite}
+.guide-character-action.guide-action-shrink #guide-arm-left,
+.guide-character-action.guide-action-shrink #guide-arm-right{animation:guideShrinkArm 3.6s var(--guide-ease) infinite}
+.guide-character-action.guide-action-shrink #guide-leg-left,
+.guide-character-action.guide-action-shrink #guide-leg-right{animation:guideShrinkLeg 3.6s var(--guide-ease) infinite}
+.guide-character-action.guide-action-shrink #guide-head-action-motion.guide-head-action-none{animation:guideShrinkHead 3.6s var(--guide-ease) infinite}
+
+.social-guide__message{
+  width:min(100%,188px);
+  margin-top:8px;
+  transition:margin-top 420ms cubic-bezier(.22,1,.36,1);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:11.5px;
+  font-weight:500;
+  line-height:1.3;
+  letter-spacing:.005em;
+  text-align:center;
+  text-wrap:balance;
+}
+
+@keyframes guideFaceIn{from{opacity:0;transform:scale(.93) translateY(3px)}to{opacity:1;transform:none}}
+@keyframes guideHeadFloat{
+  0%,100%{transform:translate(0,0) rotate(-.5deg)}
+  28%{transform:translate(1.5px,-6px) rotate(.2deg)}
+  55%{transform:translate(.5px,-10px) rotate(.7deg)}
+  80%{transform:translate(-1.5px,-4px) rotate(-.2deg)}
+}
+@keyframes guideHappyMotion{
+  0%,100%{transform:translateY(0) rotate(0) scale(1)}
+  10%{transform:translateY(2.5px) rotate(.5deg) scale(1.025,.975)}
+  32%{transform:translateY(-8px) rotate(-2deg) scale(.985,1.025)}
+  48%{transform:translateY(1px) rotate(-.5deg) scale(1.02,.98)}
+  58%{transform:translateY(2.5px) rotate(-.5deg) scale(1.025,.975)}
+  80%{transform:translateY(-8px) rotate(2deg) scale(.985,1.025)}
+  94%{transform:translateY(1px) scale(1.01,.99)}
+}
+@keyframes guideExcitedMotion{
+  0%,100%{transform:translateY(0) rotate(0) scale(1)}
+  16%{transform:translateY(-7px) rotate(-2deg) scale(.985,1.025)}
+  34%{transform:translateY(1.5px) rotate(1.2deg) scale(1.025,.975)}
+  54%{transform:translateY(-6px) rotate(1.6deg) scale(.985,1.02)}
+  74%{transform:translateY(1px) rotate(-1deg) scale(1.02,.98)}
+}
+@keyframes guideProudMotion{
+  0%,100%{transform:translateY(0) rotate(0) scale(1)}
+  22%{transform:translateY(-5px) rotate(.8deg) scale(1.02)}
+  40%,70%{transform:translateY(-4px) rotate(1.2deg) scale(1.022)}
+  55%{transform:translateY(-5.5px) rotate(.5deg) scale(1.025)}
+  88%{transform:translateY(0) rotate(0) scale(1)}
+}
+@keyframes guideCuriousMotion{
+  0%,100%{transform:rotate(0) translateX(0)}
+  12%{transform:rotate(1deg) translateX(1px)}
+  24%{transform:rotate(-4deg) translate(-3px,-1px) scale(1.012)}
+  34%,52%{transform:rotate(-3deg) translate(-2px,-1px) scale(1.012)}
+  62%{transform:rotate(-4.5deg) translate(-3px,-2px) scale(1.02)}
+  78%{transform:rotate(1.2deg) translateX(1px)}
+  90%{transform:rotate(0) translateX(0)}
+}
+@keyframes guideWorriedMotion{
+  0%,100%{transform:rotate(0) translateX(0)}
+  12%{transform:rotate(-1.5deg) translateX(-1px)}
+  22%{transform:rotate(-.6deg)}
+  32%{transform:rotate(-1.8deg) translateX(-1px)}
+  46%{transform:rotate(.8deg) translateX(1px)}
+  56%{transform:rotate(1.6deg) translateX(1px)}
+  66%{transform:rotate(.3deg)}
+  78%{transform:rotate(-1deg)}
+}
+@keyframes guideRunHead{
+  0%,100%{transform:translateY(4px) rotate(1.4deg) scale(1.01,.99)}
+  25%,75%{transform:translateY(-4px) rotate(0) scale(.995,1.01)}
+  50%{transform:translateY(4px) rotate(-1.4deg) scale(1.01,.99)}
+}
+@keyframes guideWaveHead{
+  0%,100%{transform:rotate(0) translate(0,0)}
+  18%,36%,56%{transform:rotate(3deg) translate(2px,-1px)}
+  26%,46%,66%{transform:rotate(1.6deg) translate(1px,-1px)}
+  78%{transform:rotate(2.2deg) translate(1px,0)}
+  90%{transform:rotate(0) translate(0,0)}
+}
+@keyframes guideShrinkHead{
+  0%,100%{transform:translateY(0) rotate(0)}
+  24%,64%{transform:translateY(4px) rotate(-1.5deg)}
+  44%{transform:translateY(4.5px) rotate(-2.2deg)}
+  54%{transform:translateY(4px) rotate(-.8deg)}
+  82%{transform:translateY(0) rotate(0)}
+}
+@keyframes guideHeadLook{
+  0%,100%{transform:rotate(0) translateX(0)}
+  12%{transform:rotate(1deg) translateX(1px)}
+  24%,38%{transform:rotate(-3.5deg) translateX(-4px) scale(.99,1)}
+  52%{transform:rotate(-1deg)}
+  64%,78%{transform:rotate(3.5deg) translateX(4px) scale(.99,1)}
+  90%{transform:rotate(0) translateX(0)}
+}
+@keyframes guideHeadNod{
+  0%,66%,100%{transform:translateY(0) rotate(0)}
+  8%{transform:translateY(-2px) rotate(-.6deg)}
+  20%{transform:translateY(6px) rotate(1.6deg) scale(1.01,.99)}
+  32%{transform:translateY(-1.5px) rotate(-.5deg)}
+  44%{transform:translateY(5px) rotate(1.3deg) scale(1.01,.99)}
+  56%{transform:translateY(0)}
+}
+@keyframes guideRunBody{
+  0%,100%{transform:translateY(3px) rotate(-1.6deg) scale(1.02,.975)}
+  25%,75%{transform:translateY(-8px) rotate(0) scale(.99,1.025)}
+  50%{transform:translateY(3px) rotate(1.6deg) scale(1.02,.975)}
+}
+@keyframes guideRunStep{
+  0%,100%{transform:translateY(0) rotate(-24deg)}
+  25%{transform:translateY(-10px) rotate(2deg)}
+  50%{transform:translateY(0) rotate(24deg)}
+  75%{transform:translateY(0) rotate(0)}
+}
+@keyframes guideRunArm{0%,100%{transform:rotate(calc(var(--s) * 30deg))}50%{transform:rotate(calc(var(--s) * -30deg))}}
+@keyframes guideLookBody{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  24%,38%{transform:translate(-2px,-1px) rotate(-.8deg)}
+  64%,78%{transform:translate(2px,-1px) rotate(.8deg)}
+  90%{transform:translate(0,0) rotate(0)}
+}
+@keyframes guideNodBody{0%,66%,100%{transform:translateY(0)}20%,44%{transform:translateY(2px) scale(1.004,.996)}32%{transform:translateY(0)}}
+@keyframes guideNodTorso{0%,66%,100%{transform:scaleY(1)}20%,44%{transform:scaleY(.994)}}
+@keyframes guideShrinkBody{
+  0%,100%{transform:translateY(0) scale(1) rotate(0)}
+  10%{transform:translateY(-1px) scale(1.005)}
+  24%,64%{transform:translateY(4px) scale(.974)}
+  44%{transform:translateY(4.5px) scale(.97)}
+  50%{transform:translateY(4px) rotate(-.6deg) scale(.972)}
+  56%{transform:translateY(4px) rotate(.6deg) scale(.972)}
+  61%{transform:translateY(4px) rotate(-.3deg) scale(.973)}
+  82%{transform:translateY(0) scale(1) rotate(0)}
+}
+@keyframes guideShrinkTorso{0%,100%{transform:translateY(0) scaleY(1)}24%,62%{transform:translateY(-4px) scaleY(.98)}82%{transform:translateY(0) scaleY(1)}}
+@keyframes guideShrinkArm{0%,100%{transform:rotate(0)}10%{transform:rotate(calc(var(--s) * 3deg))}24%,62%{transform:rotate(calc(var(--s) * -14deg))}82%{transform:rotate(0)}}
+@keyframes guideShrinkLeg{0%,100%{transform:rotate(0)}24%,62%{transform:rotate(calc(var(--s) * 3deg))}82%{transform:rotate(0)}}
+@keyframes guideWaveBody{0%,100%{transform:translateY(0) rotate(0)}14%,84%{transform:translateY(-1.5px) rotate(-1.2deg)}}
+@keyframes guideWaveArm{
+  0%,100%{transform:rotate(0)}
+  6%{transform:rotate(8deg)}
+  18%{transform:rotate(-84deg)}
+  26%{transform:rotate(-60deg)}
+  36%{transform:rotate(-80deg)}
+  46%{transform:rotate(-58deg)}
+  56%{transform:rotate(-76deg)}
+  66%{transform:rotate(-62deg)}
+  76%{transform:rotate(-72deg)}
+  86%{transform:rotate(-66deg)}
+  94%{transform:rotate(3deg)}
+}
+@keyframes guideWaveArmCounter{0%,100%{transform:rotate(0)}20%,80%{transform:rotate(-3deg)}}
+@keyframes guideWaveLeg{0%,100%{transform:rotate(0)}14%,84%{transform:rotate(calc(var(--s) * 1.2deg))}}
+@keyframes guideBlushPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1,1.08);opacity:.85}}
+@keyframes guideMouthLaugh{0%,100%,48%,94%{transform:scale(1)}32%,80%{transform:scale(1.04,1.12)}}
+@keyframes guideEyeSquint{0%,100%,48%,94%{transform:scale(1)}32%,80%{transform:scale(1.06,1.12)}}
+@keyframes guideMouthExc{0%,100%{transform:scale(1)}16%,54%{transform:scale(1.05,1.14)}34%,74%{transform:scale(1)}}
+@keyframes guideEyeSparkle{0%,100%,34%,74%{transform:scale(1)}16%,54%{transform:scale(1.12)}}
+
+@media (max-width:760px){
+  .social-guide{
+    width:min(176px,46vw);
+    transition:opacity 180ms ease;
+  }
+  .social-guide__character{width:clamp(125px,34vw,150px)}
+  .social-guide__message{font-size:11px;max-width:172px}
+}
+
+
+/* ==================================================
+   BEHANCE / MANTENIMIENTO — mascota azul SVG real
+   ================================================== */
+.behance-maintenance{
+  --maintenance-main:#1B60F6;
+  --maintenance-side:#053ECD;
+  --maintenance-module:#0c4cff;
+  --maintenance-module-inner:#4e7dff;
+  --maintenance-eye:#34130f;
+  --maintenance-mouth:#5b1512;
+  --maintenance-blush:#ff8977;
+  --maintenance-tongue:#ff6265;
+  --maintenance-ease:cubic-bezier(.45,.05,.55,.95);
+  --maintenance-ease-out:cubic-bezier(.22,1,.36,1);
+
+  position:fixed;
+  inset:0;
+  z-index:2147483500;
+  display:grid;
+  place-items:center;
+  min-height:100dvh;
+  overflow:hidden;
+  background:#26282a;
+  color:#f2f1ed;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity 220ms cubic-bezier(.23,1,.32,1),visibility 0s linear 220ms;
+}
+.behance-maintenance.is-open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transition:opacity 220ms cubic-bezier(.23,1,.32,1);
+}
+.behance-maintenance__content{
+  width:min(90vw,720px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:0;
+}
+.behance-maintenance__character{
+  width:clamp(145px,15vw,210px);
+  aspect-ratio:1400/1240;
+  display:grid;
+  place-items:center;
+  overflow:visible;
+}
+.maintenance-character-action{
+  width:100%;
+  display:grid;
+  place-items:center;
+  transform-origin:50% 84%;
+  will-change:transform;
+}
+#maintenance-character-svg{
+  width:100%;
+  height:auto;
+  display:block;
+  overflow:visible;
+  background:transparent;
+}
+#maintenance-head-anchor{transform-box:fill-box}
+#maintenance-head-action-motion,
+#maintenance-head-float,
+#maintenance-head-emotion-motion{
+  transform-box:fill-box;
+  will-change:transform;
+}
+#maintenance-head-action-motion,
+#maintenance-head-emotion-motion{transform-origin:50% 55%}
+#maintenance-head-float{transform-origin:center}
+#maintenance-head-svg{display:block;overflow:visible}
+.maintenance-face{
+  display:block;
+  transform-box:fill-box;
+  transform-origin:50% 55%;
+}
+#maintenance-arm-left,
+#maintenance-arm-right,
+#maintenance-leg-left,
+#maintenance-leg-right{
+  transform-box:fill-box;
+  will-change:transform;
+}
+#maintenance-arm-left{--s:1;transform-origin:right center}
+#maintenance-arm-right{--s:-1;transform-origin:left center}
+#maintenance-leg-left{--s:1;transform-origin:center top}
+#maintenance-leg-right{--s:-1;transform-origin:center top}
+#maintenance-torso{transform-box:fill-box;transform-origin:50% 100%}
+
+.behance-maintenance.is-open .maintenance-character-action.maintenance-action-jump{animation:maintenanceJumpBody 1.9s infinite}
+.behance-maintenance.is-open .maintenance-action-jump #maintenance-arm-left,
+.behance-maintenance.is-open .maintenance-action-jump #maintenance-arm-right{animation:maintenanceJumpArm 1.9s infinite}
+.behance-maintenance.is-open .maintenance-action-jump #maintenance-leg-left,
+.behance-maintenance.is-open .maintenance-action-jump #maintenance-leg-right{animation:maintenanceJumpLeg 1.9s infinite}
+.behance-maintenance.is-open .maintenance-action-jump #maintenance-head-action-motion.maintenance-head-action-none{animation:maintenanceJumpHead 1.9s infinite}
+.behance-maintenance.is-open #maintenance-head-float{animation:maintenanceHeadFloat 4.6s var(--maintenance-ease) infinite}
+.behance-maintenance.is-open #maintenance-head-emotion-motion.maintenance-motion-sorprendido{animation:maintenanceSurpriseMotion 3.4s var(--maintenance-ease) infinite}
+.behance-maintenance.is-open .maintenance-face.active{animation:maintenanceFaceIn .3s var(--maintenance-ease-out) backwards}
+.behance-maintenance.is-open .maintenance-face.active ellipse[fill="var(--maintenance-mouth)"],
+.behance-maintenance.is-open .maintenance-face.active path[fill="var(--maintenance-tongue)"]{
+  transform-box:fill-box;
+  transform-origin:50% 20%;
+  animation:maintenanceMouthPop 3.4s var(--maintenance-ease) infinite;
+}
+.behance-maintenance.is-open .maintenance-face.active [data-eye]{
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:maintenanceEyePop .5s var(--maintenance-ease-out) backwards;
+}
+
+@keyframes maintenanceFaceIn{from{opacity:0;transform:scale(.93) translateY(3px)}to{opacity:1;transform:none}}
+@keyframes maintenanceHeadFloat{
+  0%,100%{transform:translate(0,0) rotate(-.5deg)}
+  28%{transform:translate(1.5px,-6px) rotate(.2deg)}
+  55%{transform:translate(.5px,-10px) rotate(.7deg)}
+  80%{transform:translate(-1.5px,-4px) rotate(-.2deg)}
+}
+@keyframes maintenanceSurpriseMotion{
+  0%,52%,100%{transform:translateY(0) scale(1)}
+  58%{transform:translateY(3px) scale(1.02,.97)}
+  64%{transform:translateY(-12px) rotate(-.8deg) scale(.975,1.045)}
+  72%{transform:translateY(3px) rotate(.5deg) scale(1.025,.975)}
+  80%{transform:translateY(-4px) scale(.995,1.01)}
+  90%{transform:translateY(1px)}
+}
+@keyframes maintenanceJumpHead{
+  0%,100%{transform:translateY(0) rotate(0)}
+  14%{transform:translateY(8px) scale(1.02,.97)}
+  28%{transform:translateY(9px) scale(1.02,.97)}
+  42%{transform:translateY(-7px) rotate(-1.5deg) scale(.99,1.02)}
+  60%{transform:translateY(9px) rotate(1deg)}
+  67%{transform:translateY(11px) scale(1.03,.96)}
+  77%{transform:translateY(-4px) rotate(-.5deg)}
+  88%{transform:translateY(0) rotate(0)}
+}
+@keyframes maintenanceJumpBody{
+  0%{transform:translateY(0) scale(1);animation-timing-function:var(--maintenance-ease)}
+  6%{transform:translateY(1px) scale(1.01,.99);animation-timing-function:var(--maintenance-ease)}
+  14%{transform:translateY(7px) scale(1.09,.86);animation-timing-function:cubic-bezier(.2,.8,.3,1)}
+  28%{transform:translateY(-40px) scale(.93,1.12);animation-timing-function:cubic-bezier(.3,0,.6,1)}
+  42%{transform:translateY(-46px) scale(1.01,.99) rotate(-2deg);animation-timing-function:cubic-bezier(.55,0,.9,.6)}
+  60%{transform:translateY(0) scale(.95,1.1) rotate(0);animation-timing-function:cubic-bezier(.2,.8,.3,1)}
+  66%{transform:translateY(5px) scale(1.12,.84);animation-timing-function:var(--maintenance-ease-out)}
+  76%{transform:translateY(-4px) scale(.98,1.02);animation-timing-function:var(--maintenance-ease)}
+  86%{transform:translateY(0) scale(1.01,.99)}
+  92%,100%{transform:translateY(0) scale(1)}
+}
+@keyframes maintenanceJumpArm{
+  0%,90%,100%{transform:rotate(0)}
+  14%{transform:rotate(calc(var(--s) * -20deg))}
+  28%{transform:rotate(calc(var(--s) * 55deg))}
+  42%{transform:rotate(calc(var(--s) * 62deg))}
+  60%{transform:rotate(calc(var(--s) * 35deg))}
+  66%{transform:rotate(calc(var(--s) * -18deg))}
+  76%{transform:rotate(calc(var(--s) * 8deg))}
+}
+@keyframes maintenanceJumpLeg{
+  0%,90%,100%{transform:rotate(0)}
+  14%{transform:rotate(calc(var(--s) * 5deg))}
+  28%,42%{transform:rotate(calc(var(--s) * -8deg))}
+  60%{transform:rotate(calc(var(--s) * -3deg))}
+  66%{transform:rotate(calc(var(--s) * 5deg))}
+}
+@keyframes maintenanceMouthPop{0%,60%,100%{transform:scale(1)}64%{transform:scale(1.14,1.2)}74%{transform:scale(.95)}84%{transform:scale(1.04)}}
+@keyframes maintenanceEyePop{from{transform:scale(.7,.5)}60%{transform:scale(1.12)}to{transform:scale(1)}}
+
+.behance-maintenance__title{
+  margin:clamp(18px,3vh,28px) 0 0;
+  font-family:var(--display);
+  font-size:clamp(30px,4.2vw,58px);
+  line-height:.88;
+  font-weight:850;
+  letter-spacing:-.045em;
+  text-transform:uppercase;
+  color:#f2f1ed;
+}
+.behance-maintenance__return.button-29{
+  margin-top:24px;
+  align-items:center;
+  appearance:none;
+  background:#1B60F6;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:14px;
+  box-shadow:0 5px 0 #053ECD,0 12px 24px rgba(0,0,0,.22);
+  box-sizing:border-box;
+  color:#fff;
+  cursor:pointer;
+  display:inline-flex;
+  font-family:var(--sans);
+  height:48px;
+  justify-content:center;
+  line-height:1;
+  min-width:148px;
+  overflow:hidden;
+  padding:0 22px;
+  position:relative;
+  text-align:center;
+  text-decoration:none;
+  transition:transform 170ms cubic-bezier(.22,1,.36,1),box-shadow 170ms cubic-bezier(.22,1,.36,1),background-color 170ms ease;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+  white-space:nowrap;
+  will-change:transform,box-shadow;
+  font-size:12px;
+  font-weight:760;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+.behance-maintenance__return.button-29:focus,
+.behance-maintenance__return.button-29:focus-visible{
+  outline:2px solid rgba(255,255,255,.9);
+  outline-offset:5px;
+}
+.behance-maintenance__return-label{
+  display:block;
+  transform:translateY(0);
+  transition:transform 170ms cubic-bezier(.22,1,.36,1);
+}
+@media (hover:hover) and (pointer:fine){
+  .behance-maintenance__return.button-29:hover{
+    background:#2469ff;
+    box-shadow:0 7px 0 #053ECD,0 16px 28px rgba(0,0,0,.26);
+    transform:translateY(-2px);
+  }
+  .behance-maintenance__return.button-29:hover .behance-maintenance__return-label{
+    transform:translateY(-1px);
+  }
+}
+.behance-maintenance__return.button-29:active{
+  background:#1659ea;
+  box-shadow:0 2px 0 #053ECD,0 7px 14px rgba(0,0,0,.2);
+  transform:translateY(3px);
+}
+@media (max-width:760px){
+  .behance-maintenance__content{width:min(92vw,520px)}
+  .behance-maintenance__character{width:clamp(125px,38vw,175px)}
+  .behance-maintenance__title{font-size:clamp(28px,9vw,38px)}
+  .behance-maintenance__return.button-29{margin-top:18px;font-size:12px;min-width:142px}
+}
+
+
+@media (prefers-reduced-motion:reduce){
+  .social-guide{
+    transition:opacity 120ms ease!important;
+  }
+  .social-guide__inner{transition:none!important;transform:none!important}
+  .social-guide__character,
+  .social-guide__message{transition:none!important}
+  .social-guide .guide-character-action,
+  .social-guide #guide-head-action-motion,
+  .social-guide #guide-head-float,
+  .social-guide #guide-head-emotion-motion,
+  .social-guide #guide-arm-left,
+  .social-guide #guide-arm-right,
+  .social-guide #guide-leg-left,
+  .social-guide #guide-leg-right,
+  .social-guide #guide-torso,
+  .social-guide .guide-face.active,
+  .social-guide .guide-face.active *{
+    animation:none!important;
+    transform:none!important;
+  }
+  .behance-maintenance,
+  .behance-maintenance__return,
+  .behance-maintenance__return-icon,
+  .behance-maintenance__arrow{transition:none!important}
+  .behance-maintenance .maintenance-character-action,
+  .behance-maintenance #maintenance-head-action-motion,
+  .behance-maintenance #maintenance-head-float,
+  .behance-maintenance #maintenance-head-emotion-motion,
+  .behance-maintenance .maintenance-face,
+  .behance-maintenance .maintenance-face *,
+  .behance-maintenance #maintenance-arm-left,
+  .behance-maintenance #maintenance-arm-right,
+  .behance-maintenance #maintenance-leg-left,
+  .behance-maintenance #maintenance-leg-right{
+    animation:none!important;
+    transform:none!important;
+  }
+  .behance-maintenance__arrow{animation:none!important}
+}
+
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="header">
+    <div class="brand">
+      <span class="brand__name">ALHAUS</span>
+      <span class="brand__scope">Arquitectura / Interiorismo / BIM</span>
+    </div>
+    <span class="header__label">Canales oficiales</span>
+  </header>
+
+  <section class="archive-scene" aria-label="Redes sociales de ALHAUS">
+    <div class="rack">
+      <article class="folio folio--tiktok" id="panel-tiktok" role="tabpanel" aria-labelledby="tab-tiktok" aria-hidden="true" inert>
+        <div class="folio__head">
+          <h2 class="folio__name">TikTok</h2>
+          <span class="folio__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path d="M18 7v12.3a6.3 6.3 0 1 1-4.5-6v3.6a3.1 3.1 0 1 0 1.5 2.7V7h3Zm0 0c.7 3.2 2.6 5.2 6 6.2v3.5c-2.2-.3-4.2-1.2-6-2.7"/></svg>
+          </span>
+        </div>
+        <div class="folio__body">
+          <p class="folio__statement">Proceso en movimiento.</p>
+        </div>
+        <div class="folio__footer">
+          <p class="folio__copy">Proceso, obra y decisiones de proyecto.</p>
+          <a class="folio__action" href="#" data-url="" aria-label="Abrir TikTok de ALHAUS" aria-disabled="true">Abrir perfil</a>
+        </div>
+      </article>
+
+      <article class="folio folio--instagram" id="panel-instagram" role="tabpanel" aria-labelledby="tab-instagram" aria-hidden="true" inert>
+        <div class="folio__head">
+          <h2 class="folio__name">Instagram</h2>
+          <span class="folio__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><rect x="5.5" y="5.5" width="21" height="21" rx="6"/><circle cx="16" cy="16" r="5"/><circle cx="22.2" cy="9.9" r="1.2" fill="currentColor" stroke="none"/></svg>
+          </span>
+        </div>
+        <div class="folio__body">
+          <p class="folio__statement">Proyecto y materia.</p>
+        </div>
+        <div class="folio__footer">
+          <p class="folio__copy">Proyectos, interiores, materialidad y avances.</p>
+          <a class="folio__action" href="#" data-url="" aria-label="Abrir Instagram de ALHAUS" aria-disabled="true">Abrir perfil</a>
+        </div>
+      </article>
+
+      <article class="folio folio--facebook" id="panel-facebook" role="tabpanel" aria-labelledby="tab-facebook" aria-hidden="true" inert>
+        <div class="folio__head">
+          <h2 class="folio__name">Facebook</h2>
+          <span class="folio__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path d="M18.3 27V17.1h3.4l.5-3.9h-3.9v-2.5c0-1.1.3-1.9 2-1.9h2.1V5.3c-.4-.1-1.7-.2-3-.2-3 0-5.1 1.9-5.1 5.3v2.8H11v3.9h3.3V27"/></svg>
+          </span>
+        </div>
+        <div class="folio__body">
+          <p class="folio__statement">Noticias del estudio.</p>
+        </div>
+        <div class="folio__footer">
+          <p class="folio__copy">Noticias y publicaciones del estudio.</p>
+          <a class="folio__action" href="#" data-url="" aria-label="Abrir Facebook de ALHAUS" aria-disabled="true">Abrir perfil</a>
+        </div>
+      </article>
+
+      <article class="folio folio--behance" id="panel-behance" role="tabpanel" aria-labelledby="tab-behance" aria-hidden="true" inert>
+        <div class="folio__head">
+          <h2 class="folio__name">Behance</h2>
+          <span class="folio__mark folio__mark--behance" aria-hidden="true">Bē</span>
+        </div>
+        <div class="folio__body">
+          <p class="folio__statement">Proyectos completos.</p>
+        </div>
+        <div class="folio__footer">
+          <p class="folio__copy">Selección de proyectos y visualizaciones.</p>
+          <a class="folio__action" href="#" data-url="" aria-label="Abrir Behance de ALHAUS" aria-disabled="true">Abrir perfil</a>
+        </div>
+      </article>
+
+      <article class="folio folio--whatsapp" id="panel-whatsapp" role="tabpanel" aria-labelledby="tab-whatsapp" aria-hidden="true" inert>
+        <div class="folio__head">
+          <h2 class="folio__name">WhatsApp</h2>
+          <span class="folio__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path d="M25.5 15.7A9.5 9.5 0 0 1 11.4 24l-5.1 1.4 1.4-5A9.5 9.5 0 1 1 25.5 15.7Z"/><path d="M12 10.7c.4-.8.7-.8 1.2-.8h.8c.3 0 .5.1.7.6l1 2.3c.1.4.1.6-.1.9l-.8 1c-.3.3-.3.6-.1.9.7 1.2 1.6 2.3 2.8 3 .4.2.6.2.9-.1l1.1-1.3c.3-.3.5-.4.9-.2l2.4 1.1c.4.2.6.3.7.6.1.3 0 1.7-.7 2.4-.7.8-1.9 1.3-3.2 1-1.3-.3-3.7-1.1-6.1-3.2-2.4-2.1-3.9-4.8-4.2-5.7-.3-1 .1-1.8.7-2.5Z"/></svg>
+          </span>
+        </div>
+        <div class="folio__body">
+          <p class="folio__statement">Hablemos del proyecto.</p>
+        </div>
+        <div class="folio__footer">
+          <p class="folio__copy">Consultas y nuevos proyectos.</p>
+          <a class="folio__action" href="#" data-url="" aria-label="Abrir WhatsApp de ALHAUS" aria-disabled="true">Contactar</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="slot-line" aria-hidden="true"></div>
+    <div class="slot-mask" aria-hidden="true"></div>
+
+    <div class="channel-tabs" role="tablist" aria-label="Canales de ALHAUS" aria-orientation="horizontal">
+      <button class="channel-tab" id="tab-tiktok" type="button" role="tab" data-index="0" data-social="tiktok" aria-controls="panel-tiktok" aria-selected="false" tabindex="0"><span class="channel-tab__label">TikTok</span></button>
+      <button class="channel-tab" id="tab-instagram" type="button" role="tab" data-index="1" data-social="instagram" aria-controls="panel-instagram" aria-selected="false" tabindex="-1"><span class="channel-tab__label">Instagram</span></button>
+      <button class="channel-tab" id="tab-facebook" type="button" role="tab" data-index="2" data-social="facebook" aria-controls="panel-facebook" aria-selected="false" tabindex="-1"><span class="channel-tab__label">Facebook</span></button>
+      <button class="channel-tab" id="tab-behance" type="button" role="tab" data-index="3" data-social="behance" aria-controls="panel-behance" aria-selected="false" tabindex="-1"><span class="channel-tab__label">Behance</span></button>
+      <button class="channel-tab" id="tab-whatsapp" type="button" role="tab" data-index="4" data-social="whatsapp" aria-controls="panel-whatsapp" aria-selected="false" tabindex="-1"><span class="channel-tab__label">WhatsApp</span></button>
+    </div>
+  </section>
+
+  <p class="status" aria-hidden="true"><span class="status__mouse">Pasa el cursor o haz clic en un folio</span><span class="status__touch">Toca un folio</span></p>
+</main>
+
+
+
+
+<div id="social-guide" class="social-guide" aria-hidden="true">
+  <div class="social-guide__inner">
+    <div class="social-guide__character">
+      <div id="guide-character-action" class="guide-character-action guide-action-wave">
+        <svg aria-labelledby="guide-character-title guide-character-desc" id="guide-character-svg" overflow="visible" role="img" viewBox="0 -240 1400 1240">
+<title id="guide-character-title">Mascota guía ALHAUS</title>
+<desc id="guide-character-desc">Mascota geométrica azul que reacciona a cada red social.</desc>
+<!-- HEAD: action inheritance → anchor → float → emotional motion → head SVG. -->
+<g id="guide-head-anchor" transform="translate(330 -280)">
+<g class="guide-head-action-none" id="guide-head-action-motion">
+<g id="guide-head-float">
+<g class="guide-motion-feliz" id="guide-head-emotion-motion">
+<svg height="637.222" id="guide-head-svg" overflow="visible" preserveAspectRatio="xMidYMid meet" viewBox="0 0 360 310" width="740" x="0" y="0">
+<g id="guide-head-shape">
+<polygon fill="var(--guide-main)" points="22,40 338,40 180,280"></polygon>
+<polygon fill="var(--guide-side)" points="308,40 338,40 180,280 166,259"></polygon>
+</g>
+<g aria-label="Expresión Feliz" id="guide-face">
+<!-- Coordenadas maestras: ojo izq (129.5,119), ojo der (230.5,119), boca (180,157), mejillas (124,154) y (236,154). -->
+
+<g aria-hidden="false" class="guide-face active" data-face="feliz">
+<path d="M116 127 C117 112 141 112 143 127" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-width="8"></path>
+<path d="M217 127 C218 112 242 112 244 127" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-width="8"></path>
+<ellipse cx="124" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<ellipse cx="236" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<path d="M155 138 H205 V147 C205 164 194 176 180 176 C166 176 155 164 155 147 Z" fill="var(--guide-mouth)"></path>
+<path d="M160 160 C166 153 173 150 180 150 C187 150 194 153 200 160 C196 170 189 176 180 176 C171 176 164 170 160 160 Z" fill="var(--guide-tongue)"></path>
+</g>
+
+
+<g aria-hidden="true" class="guide-face" data-face="curioso">
+<rect data-eye="left" fill="var(--guide-eye)" height="48" rx="12" width="29" x="115" y="95"></rect>
+<circle cx="132" cy="106" data-pupil="left" fill="#fff" r="5.7"></circle>
+<path d="M216 131 L225 123 L234 129 L244 127" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+<circle cx="239" cy="102" fill="var(--guide-eye)" r="4.6"></circle>
+<ellipse cx="124" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<ellipse cx="236" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<path d="M155 138 H205 V147 C205 164 194 176 180 176 C166 176 155 164 155 147 Z" fill="var(--guide-mouth)"></path>
+<path d="M160 160 C166 153 173 150 180 150 C187 150 194 153 200 160 C196 170 189 176 180 176 C171 176 164 170 160 160 Z" fill="var(--guide-tongue)"></path>
+</g>
+<g aria-hidden="true" class="guide-face" data-face="emocionado">
+<path d="M116 108 L141 124 L116 141" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+<path d="M244 108 L219 124 L244 141" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+<ellipse cx="124" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<ellipse cx="236" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<path d="M153 137 H207 V147 C207 166 195 178 180 178 C165 178 153 166 153 147 Z" fill="var(--guide-mouth)"></path>
+<path d="M158 161 C165 153 173 150 180 150 C187 150 195 153 202 161 C198 171 190 178 180 178 C170 178 162 171 158 161 Z" fill="var(--guide-tongue)"></path>
+</g>
+
+
+
+
+
+
+
+<g aria-hidden="true" class="guide-face" data-face="orgulloso">
+<path d="M116 128 Q129 108 143 128" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-width="8"></path>
+<path d="M217 128 Q230 108 244 128" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-width="8"></path>
+<ellipse cx="124" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<ellipse cx="236" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<path d="M163 151 H197 V157 C197 168 190 174 180 174 C170 174 163 168 163 157 Z" fill="var(--guide-mouth)"></path>
+<path d="M168 164 Q180 156 192 164 Q188 173 180 173 Q172 173 168 164 Z" fill="var(--guide-tongue)"></path>
+</g>
+<g aria-hidden="true" class="guide-face" data-face="preocupado">
+<path d="M113 92 Q126 93 133 80" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-width="6"></path>
+<path d="M227 80 Q234 93 247 92" fill="none" stroke="var(--guide-eye)" stroke-linecap="round" stroke-width="6"></path>
+<rect data-eye="left" fill="var(--guide-eye)" height="48" rx="12" width="29" x="115" y="95"></rect>
+<circle cx="132" cy="106" data-pupil="left" fill="#fff" r="5.7"></circle>
+<rect data-eye="right" fill="var(--guide-eye)" height="48" rx="12" width="29" x="216" y="95"></rect>
+<circle cx="233" cy="106" data-pupil="right" fill="#fff" r="5.7"></circle>
+<ellipse cx="124" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<ellipse cx="236" cy="154" fill="var(--guide-blush)" rx="21" ry="13"></ellipse>
+<path d="M163 165 Q170 157 177 165 Q184 173 192 163 Q196 159 199 164" fill="none" stroke="var(--guide-mouth)" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"></path>
+</g>
+</g>
+</svg>
+</g>
+</g>
+</g>
+</g>
+<!-- BODY: original body geometry and limb pivots preserved. -->
+<g id="guide-body-assembly" transform="translate(245 142) scale(0.65)">
+<g id="guide-arm-left">
+<rect fill="var(--guide-main)" height="110" width="300" x="157" y="418"></rect>
+<polygon fill="var(--guide-side)" points="157,418 457,418 430,446 157,446"></polygon>
+<polygon fill="var(--guide-side)" points="430,418 457,418 457,528 430,528"></polygon>
+</g>
+<g id="guide-arm-right">
+<rect fill="var(--guide-main)" height="110" width="300" x="943" y="418"></rect>
+<polygon fill="var(--guide-side)" points="943,418 1243,418 1243,446 970,446"></polygon>
+<polygon fill="var(--guide-side)" points="943,418 970,418 970,528 943,528"></polygon>
+</g>
+<g id="guide-torso">
+<rect fill="var(--guide-main)" height="540" width="540" x="430" y="274"></rect>
+<polygon fill="var(--guide-side)" opacity="0.9" points="430,274 970,274 970,814 924,814 924,320 430,320"></polygon>
+<g id="guide-torso-module">
+<rect fill="var(--guide-module)" height="184" width="184" x="608" y="452"></rect>
+<rect fill="var(--guide-module-inner)" height="124" width="124" x="638" y="482"></rect>
+</g>
+</g>
+<g id="guide-leg-left">
+<rect fill="var(--guide-main)" height="150" width="120" x="500" y="814"></rect>
+<polygon fill="var(--guide-side)" points="500,814 620,814 592,842 500,842"></polygon>
+<polygon fill="var(--guide-side)" points="592,814 620,814 620,964 592,964"></polygon>
+</g>
+<g id="guide-leg-right">
+<rect fill="var(--guide-main)" height="150" width="120" x="780" y="814"></rect>
+<polygon fill="var(--guide-side)" points="780,814 900,814 872,842 780,842"></polygon>
+<polygon fill="var(--guide-side)" points="872,814 900,814 900,964 872,964"></polygon>
+</g>
+</g>
+</svg>
+      </div>
+    </div>
+    <div class="social-guide__message">Elige una red para continuar.</div>
+  </div>
+</div>
+
+
+<section id="behance-maintenance" class="behance-maintenance" aria-hidden="true" inert>
+  <div class="behance-maintenance__content">
+    <div class="behance-maintenance__character" aria-label="Mascota azul sorprendida saltando">
+      <div class="maintenance-character-action maintenance-action-jump">
+        <svg aria-labelledby="maintenance-character-title maintenance-character-desc" id="maintenance-character-svg" overflow="visible" role="img" viewBox="0 -240 1400 1240">
+<title id="maintenance-character-title">Mascota ALHAUS en mantenimiento</title>
+<desc id="maintenance-character-desc">Mascota geométrica azul saltando con expresión sorprendida.</desc>
+<!-- HEAD: action inheritance → anchor → float → emotional motion → head SVG. -->
+<g id="maintenance-head-anchor" transform="translate(330 -280)">
+<g class="maintenance-head-action-none" id="maintenance-head-action-motion">
+<g id="maintenance-head-float">
+<g class="maintenance-motion-sorprendido" id="maintenance-head-emotion-motion">
+<svg height="637.222" id="maintenance-head-svg" overflow="visible" preserveAspectRatio="xMidYMid meet" viewBox="0 0 360 310" width="740" x="0" y="0">
+<g id="maintenance-head-shape">
+<polygon fill="var(--maintenance-main)" points="22,40 338,40 180,280"></polygon>
+<polygon fill="var(--maintenance-side)" points="308,40 338,40 180,280 166,259"></polygon>
+</g>
+<g aria-label="Expresión Sorprendido" id="maintenance-face">
+<!-- Coordenadas maestras: ojo izq (129.5,119), ojo der (230.5,119), boca (180,157), mejillas (124,154) y (236,154). -->
+
+
+<g aria-hidden="false" class="maintenance-face active" data-face="sorprendido">
+<rect data-eye="left" fill="var(--maintenance-eye)" height="48" rx="12" width="29" x="115" y="95"></rect>
+<circle cx="129.5" cy="128" data-pupil="left" fill="#fff" r="5.7"></circle>
+<rect data-eye="right" fill="var(--maintenance-eye)" height="48" rx="12" width="29" x="216" y="95"></rect>
+<circle cx="230.5" cy="128" data-pupil="right" fill="#fff" r="5.7"></circle>
+<ellipse cx="124" cy="154" fill="var(--maintenance-blush)" rx="21" ry="13"></ellipse>
+<ellipse cx="236" cy="154" fill="var(--maintenance-blush)" rx="21" ry="13"></ellipse>
+<ellipse cx="180" cy="154" fill="var(--maintenance-mouth)" rx="20" ry="23"></ellipse>
+<path d="M165 163 C170 157 175 155 180 155 C185 155 190 157 195 163 C192 171 187 177 180 177 C173 177 168 171 165 163 Z" fill="var(--maintenance-tongue)"></path>
+</g>
+
+
+
+
+
+
+
+
+
+
+
+
+</g>
+</svg>
+</g>
+</g>
+</g>
+</g>
+<!-- BODY: original body geometry and limb pivots preserved. -->
+<g id="maintenance-body-assembly" transform="translate(245 142) scale(0.65)">
+<g id="maintenance-arm-left">
+<rect fill="var(--maintenance-main)" height="110" width="300" x="157" y="418"></rect>
+<polygon fill="var(--maintenance-side)" points="157,418 457,418 430,446 157,446"></polygon>
+<polygon fill="var(--maintenance-side)" points="430,418 457,418 457,528 430,528"></polygon>
+</g>
+<g id="maintenance-arm-right">
+<rect fill="var(--maintenance-main)" height="110" width="300" x="943" y="418"></rect>
+<polygon fill="var(--maintenance-side)" points="943,418 1243,418 1243,446 970,446"></polygon>
+<polygon fill="var(--maintenance-side)" points="943,418 970,418 970,528 943,528"></polygon>
+</g>
+<g id="maintenance-torso">
+<rect fill="var(--maintenance-main)" height="540" width="540" x="430" y="274"></rect>
+<polygon fill="var(--maintenance-side)" opacity="0.9" points="430,274 970,274 970,814 924,814 924,320 430,320"></polygon>
+<g id="maintenance-torso-module">
+<rect fill="var(--maintenance-module)" height="184" width="184" x="608" y="452"></rect>
+<rect fill="var(--maintenance-module-inner)" height="124" width="124" x="638" y="482"></rect>
+</g>
+</g>
+<g id="maintenance-leg-left">
+<rect fill="var(--maintenance-main)" height="150" width="120" x="500" y="814"></rect>
+<polygon fill="var(--maintenance-side)" points="500,814 620,814 592,842 500,842"></polygon>
+<polygon fill="var(--maintenance-side)" points="592,814 620,814 620,964 592,964"></polygon>
+</g>
+<g id="maintenance-leg-right">
+<rect fill="var(--maintenance-main)" height="150" width="120" x="780" y="814"></rect>
+<polygon fill="var(--maintenance-side)" points="780,814 900,814 872,842 780,842"></polygon>
+<polygon fill="var(--maintenance-side)" points="872,814 900,814 900,964 872,964"></polygon>
+</g>
+</g>
+</svg>
+      </div>
+    </div>
+    <h2 class="behance-maintenance__title">EN MANTENIMIENTO</h2>
+    <button class="behance-maintenance__return button-29" type="button" aria-label="Regresar a redes">
+      <span class="behance-maintenance__return-label">REGRESAR</span>
+    </button>
+  </div>
+</section>
+
+<div class="custom-cursor" aria-hidden="true">
+  <svg class="custom-cursor__shape custom-cursor__shape--square" viewBox="0 0 40 40" focusable="false" aria-hidden="true">
+    <rect class="custom-cursor__outline" x="5" y="5" width="30" height="30"/>
+  </svg>
+  <svg class="custom-cursor__shape custom-cursor__shape--triangle" viewBox="0 0 40 40" focusable="false" aria-hidden="true">
+    <path class="custom-cursor__outline" d="M20 4.01 L35 29.99 L5 29.99 Z"/>
+  </svg>
+</div>
+
+<div class="whatsapp-logo-exact" aria-hidden="true">
+  <svg viewBox="0 0 700 700" focusable="false" aria-hidden="true">
+    <!-- El triángulo no se duplica: el propio cursor ocupa la pieza t. -->
+    <rect class="logo-stroke logo-piece logo-piece--q1" x="163.5" y="163.5" width="156" height="156"/>
+    <rect class="logo-stroke logo-piece logo-piece--q2" x="163.5" y="380.5" width="156" height="156"/>
+    <path class="logo-stroke logo-piece logo-piece--d" d="M548.66 383.25 H467.39 A81.27 75.25 0 0 0 467.39 533.75 H548.66 Z"/>
+  </svg>
+</div>
+
+
+<div class="mobile-whatsapp-special" aria-hidden="true">
+  <div class="mobile-whatsapp-special__logo" aria-hidden="true">
+    <span class="mobile-whatsapp-piece mobile-whatsapp-piece--q1">
+      <svg viewBox="0 0 700 700" focusable="false" aria-hidden="true"><rect class="logo-stroke" x="163.5" y="163.5" width="156" height="156"/></svg>
+    </span>
+    <span class="mobile-whatsapp-piece mobile-whatsapp-piece--tri">
+      <svg viewBox="0 0 700 700" focusable="false" aria-hidden="true"><path class="logo-stroke" d="M465.5 164.5 L548.66 315 L382.34 315 Z"/></svg>
+    </span>
+    <span class="mobile-whatsapp-piece mobile-whatsapp-piece--q2">
+      <svg viewBox="0 0 700 700" focusable="false" aria-hidden="true"><rect class="logo-stroke" x="163.5" y="380.5" width="156" height="156"/></svg>
+    </span>
+    <span class="mobile-whatsapp-piece mobile-whatsapp-piece--d">
+      <svg viewBox="0 0 700 700" focusable="false" aria-hidden="true"><path class="logo-stroke" d="M548.66 383.25 H467.39 A81.27 75.25 0 0 0 467.39 533.75 H548.66 Z"/></svg>
+    </span>
+  </div>
+</div>
+
+<script>
+(() => {
+  const scene = document.querySelector('.archive-scene');
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+  const actions = [...document.querySelectorAll('.folio__action')];
+  const finePointer = matchMedia('(hover:hover) and (pointer:fine)');
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const customCursor = document.querySelector('.custom-cursor');
+  const cursorTriangle = document.querySelector('.custom-cursor__shape--triangle');
+  const whatsappLogoExact = document.querySelector('.whatsapp-logo-exact');
+  const mobileWhatsappSpecial = document.querySelector('.mobile-whatsapp-special');
+  const behanceMaintenance = document.getElementById('behance-maintenance');
+  const behanceMaintenanceReturn = behanceMaintenance?.querySelector('.behance-maintenance__return');
+  const socialGuide = document.getElementById('social-guide');
+  const guideAction = document.getElementById('guide-character-action');
+  const guideHeadAction = document.getElementById('guide-head-action-motion');
+  const guideHeadEmotion = document.getElementById('guide-head-emotion-motion');
+  const guideMessage = socialGuide?.querySelector('.social-guide__message');
+  const guideFaces = socialGuide ? [...socialGuide.querySelectorAll('.guide-face')] : [];
+  const header = document.querySelector('.header');
+  const status = document.querySelector('.status');
+  const page = document.querySelector('.page');
+  const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)');
+
+  const cursorAngles = {tiktok:0,instagram:72,facebook:144,behance:216,whatsapp:288};
+  const themeColors = {
+    none:'#26282a',
+    tiktok:'#f1eee7',
+    instagram:'#f2d9df',
+    facebook:'#d9e3f5',
+    behance:'#d6def2',
+    whatsapp:'#d9e7df',
+    'whatsapp-special':'#2C3CA3'
+  };
+
+
+  const guideIntroState = {
+    action:'wave',
+    emotion:'feliz',
+    text:'Elige una red para continuar.'
+  };
+
+  const guideSocialMap = {
+    tiktok:{
+      action:'run',
+      emotion:'emocionado',
+      text:'Proceso, obra y decisiones de proyecto.'
+    },
+    instagram:{
+      action:'look',
+      emotion:'orgulloso',
+      text:'Proyectos, interiores, materialidad y avances.'
+    },
+    facebook:{
+      action:'nod',
+      emotion:'curioso',
+      text:'Noticias y publicaciones del estudio.'
+    },
+    behance:{
+      action:'shrink',
+      emotion:'preocupado',
+      text:'Proyectos completos. Behance está en mantenimiento.'
+    },
+    whatsapp:{
+      action:'wave',
+      emotion:'feliz',
+      text:'¿Tienes un proyecto? Hablemos.'
+    }
+  };
+
+  /* Destinos oficiales generales. Sustituir por los perfiles exactos de ALHAUS
+     cuando estén disponibles. Behance queda deliberadamente sin destino. */
+  const socialDestinations = {
+    tiktok:'https://www.tiktok.com/',
+    instagram:'https://www.instagram.com/',
+    facebook:'https://www.facebook.com/',
+    whatsapp:'https://web.whatsapp.com/'
+  };
+
+  let activeIndex = -1;
+  let committedIndex = -1;
+  let hoveredIndex = -1;
+  let hoverTimer = 0;
+  let cursorVisible = false;
+  let lastPointerX = -100;
+  let lastPointerY = -100;
+  let logoTimers = [];
+  let audioCtx = null;
+  let mobileWhatsappTimer = 0;
+  let redirectTimer = 0;
+  let mobilePieceAnimations = [];
+  let mobileOrbitStartTimer = 0;
+  let guideDismissed = false;
+  let guideCurrentIndex = -1;
+  let guideCurrentPosition = null;
+  let guideResetTimer = 0;
+  let guidePlaceTimer = 0;
+  let guideRecheckTimer = 0;
+  let guideMobileTimer = 0;
+  let guideResizeFrame = 0;
+  let guideTeleportTimer = 0;
+  let guideTeleportToken = 0;
+  let guideSafetyTimer = 0;
+
+  /* Sonido funcional y local: sin archivos, sin autoplay y a volumen muy bajo.
+     Solo responde a gestos del usuario. */
+  function getAudioContext(){
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    if(!AudioCtor) return null;
+    if(!audioCtx) audioCtx = new AudioCtor();
+    if(audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+    return audioCtx;
+  }
+
+  function navigateTo(url){
+    if(!url) return;
+    if(typeof window.__ALHAUS_NAVIGATE__ === 'function'){
+      window.__ALHAUS_NAVIGATE__(url);
+      return;
+    }
+    window.location.assign(url);
+  }
+
+  function scheduleRedirect(social,delay){
+    const url = socialDestinations[social];
+    if(!url) return;
+    clearTimeout(redirectTimer);
+    redirectTimer = window.setTimeout(() => navigateTo(url), Math.max(0,delay));
+  }
+
+  function cancelRedirect(){
+    clearTimeout(redirectTimer);
+    redirectTimer = 0;
+  }
+
+
+  const guideActionClasses = ['guide-action-wave','guide-action-run','guide-action-look','guide-action-nod','guide-action-shrink'];
+  const guideHeadActionClasses = ['guide-head-action-none','guide-head-action-look','guide-head-action-nod'];
+  const guideEmotionClasses = ['guide-motion-feliz','guide-motion-emocionado','guide-motion-orgulloso','guide-motion-curioso','guide-motion-preocupado'];
+
+  function rectsOverlap(a,b,padding=18){
+    return !(
+      a.right < b.left - padding ||
+      a.left > b.right + padding ||
+      a.bottom < b.top - padding ||
+      a.top > b.bottom + padding
+    );
+  }
+
+  function rectFromPosition(x,y,width,height){
+    return {left:x,top:y,right:x+width,bottom:y+height,width,height};
+  }
+
+  function panelGuideEnvelope(panel,index,plannedIndex=guideCurrentIndex){
+    if(!panel) return null;
+    const style = getComputedStyle(panel);
+    if(style.display === 'none') return null;
+    const rect = panel.getBoundingClientRect();
+    if(rect.width < 1 || rect.height < 1) return null;
+
+    let matrix;
+    try{ matrix = style.transform && style.transform !== 'none' ? new DOMMatrixReadOnly(style.transform) : new DOMMatrixReadOnly(); }
+    catch(_){ matrix = new DOMMatrixReadOnly(); }
+
+    const baseLeft = rect.left - matrix.m41;
+    const baseTop = rect.top - matrix.m42;
+    const sceneStyle = scene ? getComputedStyle(scene) : null;
+    const peek = parseFloat(sceneStyle?.getPropertyValue('--peek')) || 128;
+    const plannedActive = plannedIndex >= 0 ? index === plannedIndex : false;
+    const targetY = plannedActive ? (finePointer.matches ? -10 : 0) : Math.max(0,rect.height - peek);
+    const targetRect = rectFromPosition(baseLeft,baseTop + targetY,rect.width,rect.height);
+
+    /* Se usa todo el volumen barrido por la ficha mientras abre/cierra. Así la
+       guía nunca considera libre un espacio que la ficha ocupará unos frames después. */
+    return sweptGuideRect(rect,targetRect);
+  }
+
+  function guideObstacles(plannedIndex=guideCurrentIndex){
+    const obstacles = [];
+    const add = element => {
+      if(!element) return;
+      const style = getComputedStyle(element);
+      if(style.display === 'none' || style.visibility === 'hidden') return;
+      const rect = element.getBoundingClientRect();
+      if(rect.width < 1 || rect.height < 1) return;
+      obstacles.push(rect);
+    };
+    panels.forEach((panel,index) => {
+      const envelope = panelGuideEnvelope(panel,index,plannedIndex);
+      if(envelope) obstacles.push(envelope);
+    });
+    tabs.forEach(add);
+    add(header);
+    add(status);
+    return obstacles;
+  }
+
+  function guideRectIsSafe(rect,padding=18,plannedIndex=guideCurrentIndex){
+    const frameInset = window.innerWidth <= 760 ? 16 : 28;
+    if(
+      rect.left < frameInset ||
+      rect.top < frameInset ||
+      rect.right > window.innerWidth - frameInset ||
+      rect.bottom > window.innerHeight - frameInset
+    ) return false;
+    return !guideObstacles(plannedIndex).some(obstacle => rectsOverlap(rect,obstacle,padding));
+  }
+
+  function guideCandidatePositions(index,width,height){
+    const frameInset = window.innerWidth <= 760 ? 16 : 28;
+    const headerRect = header?.getBoundingClientRect();
+    const topY = Math.max(frameInset + 10,(headerRect?.bottom || frameInset) + 20);
+    const centerX = (window.innerWidth - width) / 2;
+    const candidates = [];
+    const add = (x,y) => candidates.push({
+      x:Math.round(Math.max(frameInset,Math.min(x,window.innerWidth - frameInset - width))),
+      y:Math.round(Math.max(frameInset,Math.min(y,window.innerHeight - frameInset - height)))
+    });
+
+    if(index >= 0 && panels[index]){
+      const neighborOrder = {
+        0:[1,2,3,4],
+        1:[0,2,3,4],
+        2:[1,3,0,4],
+        3:[4,2,1,0],
+        4:[3,2,1,0]
+      }[index] || [];
+      neighborOrder.forEach(neighborIndex => {
+        const rect = panels[neighborIndex]?.getBoundingClientRect();
+        if(rect) add(rect.left + (rect.width - width) / 2, topY);
+      });
+
+      const activeRect = panels[index].getBoundingClientRect();
+      add(activeRect.right + 22,topY);
+      add(activeRect.left - width - 22,topY);
+    }else{
+      add(centerX,topY);
+    }
+
+    add(frameInset + 14,topY);
+    add(window.innerWidth - frameInset - width - 14,topY);
+    add(centerX,topY + 42);
+
+    const seen = new Set();
+    return candidates.filter(candidate => {
+      const key = `${candidate.x}:${candidate.y}`;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function sweptGuideRect(fromRect,toRect){
+    return {
+      left:Math.min(fromRect.left,toRect.left),
+      top:Math.min(fromRect.top,toRect.top),
+      right:Math.max(fromRect.right,toRect.right),
+      bottom:Math.max(fromRect.bottom,toRect.bottom),
+      width:Math.max(fromRect.right,toRect.right)-Math.min(fromRect.left,toRect.left),
+      height:Math.max(fromRect.bottom,toRect.bottom)-Math.min(fromRect.top,toRect.top)
+    };
+  }
+
+  function guideRouteCrossesObstacle(fromRect,toRect,plannedIndex=guideCurrentIndex){
+    const corridor = sweptGuideRect(fromRect,toRect);
+    return guideObstacles(plannedIndex).some(obstacle => rectsOverlap(corridor,obstacle,12));
+  }
+
+  function setGuidePosition(position){
+    if(!socialGuide) return;
+    socialGuide.style.setProperty('--guide-x',`${position.x}px`);
+    socialGuide.style.setProperty('--guide-y',`${position.y}px`);
+    guideCurrentPosition = {x:position.x,y:position.y};
+  }
+
+  function cancelGuideTeleport({clearClasses=true}={}){
+    ++guideTeleportToken;
+    clearTimeout(guideTeleportTimer);
+    guideTeleportTimer = 0;
+    if(clearClasses) socialGuide?.classList.remove('is-teleporting','is-teleport-jump');
+  }
+
+  function teleportGuideTo(position){
+    if(!socialGuide) return 'teleport';
+    const token = ++guideTeleportToken;
+    clearTimeout(guideTeleportTimer);
+
+    socialGuide.classList.remove('is-teleport-jump');
+    socialGuide.classList.add('is-teleporting');
+
+    guideTeleportTimer = window.setTimeout(() => {
+      if(token !== guideTeleportToken) return;
+
+      socialGuide.classList.add('is-teleport-jump');
+      setGuidePosition(position);
+      void socialGuide.offsetWidth;
+
+      requestAnimationFrame(() => {
+        if(token !== guideTeleportToken) return;
+        socialGuide.classList.remove('is-teleport-jump');
+
+        requestAnimationFrame(() => {
+          if(token !== guideTeleportToken) return;
+          socialGuide.classList.remove('is-teleporting');
+        });
+      });
+    },reducedMotion.matches ? 0 : 100);
+
+    return 'teleport';
+  }
+
+  function slideGuideTo(position){
+    if(!socialGuide) return 'slide';
+    cancelGuideTeleport();
+    setGuidePosition(position);
+    return 'slide';
+  }
+
+  function moveGuideTo(position,{instant=false,plannedIndex=guideCurrentIndex}={}){
+    if(!socialGuide) return 'none';
+
+    /* La segunda comprobación puede pedir exactamente el mismo destino. No volver
+       a hacer fade ni reiniciar el movimiento: esa era la causa principal del
+       doble parpadeo al cambiar rápidamente de red. */
+    const sameTarget = guideCurrentPosition &&
+      Math.abs(position.x - guideCurrentPosition.x) < 1 &&
+      Math.abs(position.y - guideCurrentPosition.y) < 1;
+    if(sameTarget) return 'same';
+
+    const width = socialGuide.offsetWidth;
+    const height = socialGuide.offsetHeight;
+    const targetRect = rectFromPosition(position.x,position.y,width,height);
+    const currentRect = socialGuide.getBoundingClientRect();
+    const hasCurrent = !!guideCurrentPosition && socialGuide.classList.contains('is-visible');
+
+    if(!hasCurrent){
+      cancelGuideTeleport();
+      socialGuide.classList.add('is-teleport-jump');
+      setGuidePosition(position);
+      void socialGuide.offsetWidth;
+      socialGuide.classList.remove('is-teleport-jump');
+      return 'initial';
+    }
+
+    const dx = targetRect.left - currentRect.left;
+    const dy = targetRect.top - currentRect.top;
+    const distance = Math.hypot(dx,dy);
+    const maxSlideDistance = Math.max(250,Math.min(300,window.innerWidth * .22));
+    const routeBlocked = guideRouteCrossesObstacle(currentRect,targetRect,plannedIndex);
+    const canSlide = !instant && !reducedMotion.matches && !routeBlocked && distance <= maxSlideDistance;
+
+    return canSlide ? slideGuideTo(position) : teleportGuideTo(position);
+  }
+
+  function verifyGuidePlacement(index,candidate,width,height){
+    if(!socialGuide || guideDismissed || !socialGuide.classList.contains('is-visible')) return;
+    const actual = socialGuide.getBoundingClientRect();
+    if(guideRectIsSafe(actual,14,index)) return;
+
+    const alternatives = guideCandidatePositions(index,width,height)
+      .filter(position => position.x !== candidate.x || position.y !== candidate.y);
+    const next = alternatives.find(position => guideRectIsSafe(rectFromPosition(position.x,position.y,width,height),18,index));
+    if(next) teleportGuideTo(next);
+    else {
+      cancelGuideTeleport();
+      socialGuide.classList.remove('is-visible');
+      guideCurrentPosition = null;
+    }
+  }
+
+  function placeGuideSafely(index=guideCurrentIndex,{instant=false}={}){
+    if(!socialGuide || guideDismissed) return false;
+    const width = socialGuide.offsetWidth;
+    const height = socialGuide.offsetHeight;
+    if(!width || !height) return false;
+
+    const candidate = guideCandidatePositions(index,width,height)
+      .find(position => guideRectIsSafe(rectFromPosition(position.x,position.y,width,height),18,index));
+
+    if(!candidate){
+      cancelGuideTeleport();
+      clearTimeout(guideSafetyTimer);
+      socialGuide.classList.remove('is-visible');
+      guideCurrentPosition = null;
+      return false;
+    }
+
+    const mode = moveGuideTo(candidate,{instant,plannedIndex:index});
+    socialGuide.classList.add('is-visible');
+
+    /* Nunca validar mientras un slide de 420 ms está a mitad de camino: medir ese
+       estado intermedio producía una falsa colisión y un segundo teleport. */
+    clearTimeout(guideSafetyTimer);
+    const verifyDelay = mode === 'slide' ? 450 : mode === 'teleport' ? 280 : 40;
+    guideSafetyTimer = window.setTimeout(() => {
+      if(guideDismissed || guideCurrentIndex !== index) return;
+      verifyGuidePlacement(index,candidate,width,height);
+    },reducedMotion.matches ? 0 : verifyDelay);
+
+    return true;
+  }
+
+  function setGuideEmotion(emotion){
+    if(!guideHeadEmotion) return;
+    guideHeadEmotion.classList.remove(...guideEmotionClasses);
+    guideHeadEmotion.classList.add(`guide-motion-${emotion}`);
+    guideFaces.forEach(face => {
+      const active = face.dataset.face === emotion;
+      face.classList.toggle('active',active);
+      face.setAttribute('aria-hidden',active ? 'false' : 'true');
+    });
+  }
+
+  function setGuideAction(action){
+    if(!guideAction || !guideHeadAction) return;
+    guideAction.classList.remove(...guideActionClasses);
+    guideAction.classList.add(`guide-action-${action}`);
+    guideHeadAction.classList.remove(...guideHeadActionClasses);
+    const headClass = action === 'look' ? 'guide-head-action-look'
+      : action === 'nod' ? 'guide-head-action-nod'
+      : 'guide-head-action-none';
+    guideHeadAction.classList.add(headClass);
+  }
+
+  function applyGuideState(state){
+    if(!state || !socialGuide) return;
+    setGuideEmotion(state.emotion);
+    setGuideAction(state.action);
+    if(guideMessage) guideMessage.textContent = state.text;
+  }
+
+  function hideSocialGuide({dismiss=false}={}){
+    clearTimeout(guideResetTimer);
+    clearTimeout(guidePlaceTimer);
+    clearTimeout(guideRecheckTimer);
+    clearTimeout(guideMobileTimer);
+    clearTimeout(guideSafetyTimer);
+    cancelGuideTeleport();
+    if(dismiss) guideDismissed = true;
+    socialGuide?.classList.remove('is-visible','is-teleporting','is-teleport-jump','is-whatsapp-focus');
+  }
+
+  function showGuideIntro(){
+    if(!socialGuide || guideDismissed) return;
+    guideCurrentIndex = -1;
+    socialGuide.classList.remove('is-whatsapp-focus');
+    applyGuideState(guideIntroState);
+    const shown = placeGuideSafely(-1,{instant:true});
+    if(shown && !finePointer.matches){
+      clearTimeout(guideMobileTimer);
+      guideMobileTimer = window.setTimeout(() => {
+        if(!guideDismissed) socialGuide.classList.remove('is-visible');
+      },3000);
+    }
+  }
+
+  function recheckGuideSafety(index){
+    if(!socialGuide || guideDismissed || guideCurrentIndex !== index || !socialGuide.classList.contains('is-visible')) return;
+    const current = socialGuide.getBoundingClientRect();
+    if(guideRectIsSafe(current,14,index)) return;
+    placeGuideSafely(index,{instant:true});
+  }
+
+  function guideWhatsappCenterPosition(){
+    if(!socialGuide) return null;
+    const character = socialGuide.querySelector('.social-guide__character');
+    const guideWidth = socialGuide.offsetWidth;
+    const charWidth = character?.offsetWidth || 0;
+    const charHeight = character?.offsetHeight || 0;
+    const charLeft = character?.offsetLeft || Math.max(0,(guideWidth-charWidth)/2);
+    const charTop = character?.offsetTop || 0;
+    return {
+      x:Math.round((window.innerWidth/2) - charLeft - (charWidth/2)),
+      y:Math.round((window.innerHeight/2) - charTop - (charHeight/2))
+    };
+  }
+
+  function updateSocialGuide(social,index){
+    if(!finePointer.matches || guideDismissed || !guideSocialMap[social]) return;
+    clearTimeout(guideResetTimer);
+    clearTimeout(guidePlaceTimer);
+    clearTimeout(guideRecheckTimer);
+    guideCurrentIndex = index;
+    applyGuideState(guideSocialMap[social]);
+
+    const whatsappFocus = social === 'whatsapp';
+    socialGuide?.classList.toggle('is-whatsapp-focus',whatsappFocus);
+    socialGuide?.classList.add('is-visible');
+
+    if(whatsappFocus){
+      /* WhatsApp es el único estado donde la mascota pasa a ser protagonista:
+         duplica su escala y su centro visual coincide con el centro del viewport. */
+      guidePlaceTimer = window.setTimeout(() => {
+        if(guideDismissed || guideCurrentIndex !== index) return;
+        const centerPosition = guideWhatsappCenterPosition();
+        if(centerPosition) moveGuideTo(centerPosition,{plannedIndex:index});
+      },0);
+      return;
+    }
+
+    guidePlaceTimer = window.setTimeout(() => placeGuideSafely(index),0);
+    guideRecheckTimer = window.setTimeout(() => {
+      if(!guideDismissed && guideCurrentIndex === index) recheckGuideSafety(index);
+    },340);
+  }
+
+  function resetSocialGuide(){
+    if(!finePointer.matches || guideDismissed) return;
+    clearTimeout(guideResetTimer);
+    guideResetTimer = window.setTimeout(() => {
+      if(guideDismissed || hoveredIndex >= 0) return;
+      guideCurrentIndex = -1;
+      socialGuide.classList.remove('is-whatsapp-focus');
+      applyGuideState(guideIntroState);
+      placeGuideSafely(-1);
+    },250);
+  }
+
+  function dismissSocialGuide(){
+    hideSocialGuide({dismiss:true});
+  }
+
+  function openBehanceMaintenance(){
+    cancelRedirect();
+    dismissSocialGuide();
+    if(!behanceMaintenance) return;
+    behanceMaintenance.removeAttribute('inert');
+    behanceMaintenance.setAttribute('aria-hidden','false');
+    void behanceMaintenance.offsetWidth;
+    behanceMaintenance.classList.add('is-open');
+    behanceMaintenanceReturn?.focus({preventScroll:true});
+  }
+
+  function resumeSocialGuideAfterMaintenance(){
+    if(!socialGuide) return;
+    guideDismissed = false;
+    clearTimeout(guideResetTimer);
+    clearTimeout(guidePlaceTimer);
+    clearTimeout(guideRecheckTimer);
+    clearTimeout(guideMobileTimer);
+
+    if(finePointer.matches){
+      const hit = document.elementFromPoint(lastPointerX,lastPointerY);
+      const tab = hit?.closest?.('.channel-tab');
+      const panel = hit?.closest?.('[role="tabpanel"]');
+      let index = tab ? tabs.indexOf(tab) : panel ? panels.indexOf(panel) : -1;
+      if(index >= 0 && tabs[index]){
+        hoveredIndex = index;
+        updateSocialGuide(tabs[index].dataset.social,index);
+        return;
+      }
+      hoveredIndex = -1;
+    }
+
+    showGuideIntro();
+  }
+
+  function closeBehanceMaintenance(){
+    if(!behanceMaintenance) return;
+    behanceMaintenance.classList.remove('is-open');
+    behanceMaintenance.setAttribute('aria-hidden','true');
+    window.setTimeout(() => {
+      if(behanceMaintenance.classList.contains('is-open')) return;
+      behanceMaintenance.setAttribute('inert','');
+      resumeSocialGuideAfterMaintenance();
+    },230);
+    document.getElementById('tab-behance')?.focus({preventScroll:true});
+  }
+
+  function softTone(frequency,{delay=0,duration=.06,volume=.018,type='sine'}={}){
+    const ctx = getAudioContext();
+    if(!ctx) return;
+    const start = ctx.currentTime + delay;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(frequency,start);
+    gain.gain.setValueAtTime(.0001,start);
+    gain.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),start+.008);
+    gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(start);
+    osc.stop(start+duration+.02);
+  }
+
+  function playFolioTap(social){
+    const pitches={tiktok:460,instagram:520,facebook:490,behance:430};
+    const f=pitches[social] || 470;
+    softTone(f,{duration:.055,volume:.014,type:'triangle'});
+    softTone(f*1.48,{delay:.012,duration:.042,volume:.006,type:'sine'});
+  }
+
+  function playWhatsappCue(){
+    softTone(330,{duration:.09,volume:.015,type:'triangle'});
+    softTone(495,{delay:.055,duration:.15,volume:.011,type:'sine'});
+  }
+
+  function playFolioDeploy(social){
+    /* Hover is not considered a user gesture by autoplay policies.
+       Only play once AudioContext has already been unlocked by a click/tap. */
+    if(!audioCtx || audioCtx.state !== 'running') return;
+    const ctx = audioCtx;
+    const duration = .115;
+    const count = Math.max(1,Math.floor(ctx.sampleRate * duration));
+    const buffer = ctx.createBuffer(1,count,ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for(let i=0;i<count;i++){
+      const t = i / count;
+      const attack = Math.min(1,t/.12);
+      const release = Math.pow(1-t,2.7);
+      data[i] = (Math.random()*2-1) * attack * release;
+    }
+    const source = ctx.createBufferSource();
+    const filter = ctx.createBiquadFilter();
+    const gain = ctx.createGain();
+    const centers = {tiktok:720,instagram:790,facebook:680,behance:640,whatsapp:610};
+    filter.type = 'bandpass';
+    filter.frequency.value = centers[social] || 690;
+    filter.Q.value = .72;
+    gain.gain.setValueAtTime(.0001,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.0065,ctx.currentTime+.014);
+    gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+duration);
+    source.buffer = buffer;
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    source.start();
+
+    const body = social === 'whatsapp' ? 132 : 148;
+    const osc = ctx.createOscillator();
+    const bodyGain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(body,ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(body*.86,ctx.currentTime+.09);
+    bodyGain.gain.setValueAtTime(.0001,ctx.currentTime);
+    bodyGain.gain.exponentialRampToValueAtTime(.0032,ctx.currentTime+.012);
+    bodyGain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.1);
+    osc.connect(bodyGain);
+    bodyGain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime+.12);
+  }
+
+  function playScatterCue(){
+    const ctx = getAudioContext();
+    if(!ctx) return;
+    const duration=.18;
+    const count=Math.max(1,Math.floor(ctx.sampleRate*duration));
+    const buffer=ctx.createBuffer(1,count,ctx.sampleRate);
+    const data=buffer.getChannelData(0);
+    for(let i=0;i<count;i++){
+      const envelope=Math.pow(1-i/count,2.2);
+      data[i]=(Math.random()*2-1)*envelope;
+    }
+    const source=ctx.createBufferSource();
+    const filter=ctx.createBiquadFilter();
+    const gain=ctx.createGain();
+    filter.type='bandpass';
+    filter.frequency.value=920;
+    filter.Q.value=.55;
+    gain.gain.value=.011;
+    source.buffer=buffer;
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    source.start();
+  }
+
+  function playMorphCue(){
+    softTone(540,{duration:.055,volume:.009,type:'sine'});
+    softTone(360,{delay:.035,duration:.085,volume:.008,type:'triangle'});
+  }
+
+  /*
+    normal         -> cursor follows the physical pointer exactly.
+    logo-flight    -> triangle travels to the exact isotipo position.
+    logo-hold      -> isotipo is assembled and static.
+    triangle-ready -> pieces scatter, background is gray, triangle stays at logo.
+    morphing       -> triangle becomes square while gliding to the real pointer.
+  */
+  let cursorPhase = 'normal';
+  let logoAnchorX = -100;
+  let logoAnchorY = -100;
+  let secondActionAnchorX = -100;
+  let secondActionAnchorY = -100;
+  let morphFinishTimer = 0;
+  let secondActionReadyAt = 0;
+
+  function isSequenceLocked(){
+    return finePointer.matches && cursorPhase !== 'normal';
+  }
+
+  function lockFolioInteractions(lock){
+    scene?.classList.toggle('cursor-sequence-lock', !!lock);
+  }
+
+  function setCursorAngle(social){
+    if(!cursorTriangle) return;
+    cursorTriangle.style.setProperty('--cursor-angle', `${cursorAngles[social] ?? 0}deg`);
+  }
+
+  function cursorPosition(x,y){
+    const left = Math.min(Math.max(x - 21, 3), Math.max(3, window.innerWidth - 45));
+    const top = Math.min(Math.max(y - 21, 3), Math.max(3, window.innerHeight - 45));
+    return {left,top};
+  }
+
+  function placeCursor(x,y){
+    if(!customCursor) return;
+    const pos = cursorPosition(x,y);
+    customCursor.style.transform = `translate3d(${pos.left}px,${pos.top}px,0)`;
+  }
+
+  function applyTheme(social){
+    const next = themeColors[social] ? social : 'none';
+    document.documentElement.dataset.social = next;
+    if(themeMeta) themeMeta.setAttribute('content',themeColors[next]);
+  }
+
+  function clearLogoTimers(){
+    logoTimers.forEach(window.clearTimeout);
+    logoTimers = [];
+    clearTimeout(morphFinishTimer);
+    morphFinishTimer = 0;
+  }
+
+  function setCursorMode(mode,social){
+    if(!customCursor || cursorPhase !== 'normal') return;
+    const overFolio = mode === 'folio';
+    customCursor.classList.remove('is-post-logo','is-logo-flight','is-returning-square');
+    customCursor.classList.toggle('is-over-folio',overFolio);
+    if(overFolio && social) setCursorAngle(social);
+  }
+
+  function collapseFolios({keepTheme=false}={}){
+    activeIndex = -1;
+    hoveredIndex = -1;
+    clearTimeout(hoverTimer);
+    panels.forEach(panel => {
+      panel.removeAttribute('data-active');
+      panel.setAttribute('aria-hidden','true');
+      panel.setAttribute('inert','');
+    });
+    tabs.forEach((tab,i) => {
+      tab.setAttribute('aria-selected','false');
+      tab.tabIndex = i === 0 ? 0 : -1;
+    });
+    if(!keepTheme) applyTheme('none');
+  }
+
+  function withNoMotion(callback){
+    scene.classList.add('keyboard-nav');
+    callback();
+    requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.remove('keyboard-nav')));
+  }
+
+  function setActive(index,{source='pointer',focus=false,commit=false}={}){
+    if(index < 0 || index >= tabs.length) return;
+    const previousIndex = activeIndex;
+    const update = () => {
+      activeIndex = index;
+      if(commit) committedIndex = index;
+      const social = tabs[index].dataset.social;
+      applyTheme(social);
+      panels.forEach((panel,i) => {
+        const selected = i === index;
+        if(selected) panel.setAttribute('data-active','true');
+        else panel.removeAttribute('data-active');
+        panel.setAttribute('aria-hidden',selected ? 'false' : 'true');
+        if(selected) panel.removeAttribute('inert');
+        else panel.setAttribute('inert','');
+      });
+      tabs.forEach((tab,i) => {
+        const selected = i === index;
+        tab.setAttribute('aria-selected',selected ? 'true' : 'false');
+        tab.tabIndex = selected ? 0 : -1;
+      });
+      if(focus) tabs[index].focus();
+      if(source === 'hover' && previousIndex !== index){
+        playFolioDeploy(social);
+      }
+    };
+    if(source === 'keyboard') withNoMotion(update); else update();
+  }
+
+  function clearActive({source='pointer'}={}){
+    const update = () => collapseFolios({keepTheme:false});
+    if(source === 'keyboard') withNoMotion(update); else update();
+  }
+
+  function pulseFolio(index){
+    const panel = panels[index];
+    if(!panel) return;
+    panel.classList.remove('is-clicked');
+    void panel.offsetWidth;
+    panel.classList.add('is-clicked');
+    window.setTimeout(() => panel.classList.remove('is-clicked'),580);
+  }
+
+  function pressWhatsappFolio(index){
+    const panel = panels[index];
+    if(!panel) return;
+    panel.classList.remove('is-whatsapp-clicked');
+    void panel.offsetWidth;
+    panel.classList.add('is-whatsapp-clicked');
+    window.setTimeout(() => panel.classList.remove('is-whatsapp-clicked'),600);
+  }
+
+  function prepareWhatsappScatter(){
+    if(!whatsappLogoExact) return;
+    const rack = document.querySelector('.rack');
+    const whatsappPanel = panels[4];
+    if(!rack || !whatsappPanel) return;
+
+    const rackRect = rack.getBoundingClientRect();
+    const panelRect = whatsappPanel.getBoundingClientRect();
+    const targets = {
+      q1:{x:panelRect.left + panelRect.width * .25,y:rackRect.top + rackRect.height * .16,r:-34,s:.56},
+      q2:{x:panelRect.left + panelRect.width * .38,y:rackRect.bottom + Math.min(72,window.innerHeight * .075),r:32,s:.48},
+      d:{x:panelRect.left + panelRect.width * .86,y:rackRect.top + rackRect.height * .51,r:46,s:.52}
+    };
+
+    [['.logo-piece--q1','q1'],['.logo-piece--q2','q2'],['.logo-piece--d','d']].forEach(([selector,key]) => {
+      const piece = whatsappLogoExact.querySelector(selector);
+      if(!piece) return;
+      const rect = piece.getBoundingClientRect();
+      const logoRect = whatsappLogoExact.getBoundingClientRect();
+      const unitScale = 700 / Math.max(1,logoRect.width);
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const target = targets[key];
+      piece.style.setProperty('--scatter-x',`${(target.x - centerX) * unitScale}px`);
+      piece.style.setProperty('--scatter-y',`${(target.y - centerY) * unitScale}px`);
+      piece.style.setProperty('--scatter-r',`${target.r}deg`);
+      piece.style.setProperty('--scatter-s',String(target.s));
+    });
+  }
+
+  function runWhatsappSpecial(){
+    if(!finePointer.matches || !customCursor || cursorPhase !== 'normal') return;
+    clearLogoTimers();
+    lockFolioInteractions(true);
+    collapseFolios({keepTheme:true});
+    cursorPhase = 'logo-flight';
+    applyTheme('whatsapp-special');
+
+    const logoSize = 132;
+    const logoLeft = (window.innerWidth - logoSize) / 2;
+    const logoTop = (window.innerHeight - logoSize) / 2;
+    const exactTriangleCenterX = (465.5 / 700) * logoSize;
+    const exactTriangleCenterY = (239.75 / 700) * logoSize;
+    const triangleX = logoLeft + exactTriangleCenterX - 21;
+    const triangleY = logoTop + exactTriangleCenterY - 17.85;
+
+    customCursor.classList.remove('is-over-folio','is-post-logo','is-returning-square');
+    customCursor.classList.add('is-logo-flight');
+    setCursorAngle('whatsapp');
+    whatsappLogoExact?.classList.remove('is-visible','is-scattering');
+    customCursor.style.transition = 'transform 520ms cubic-bezier(.16,1,.3,1), opacity 100ms ease';
+    customCursor.style.transform = `translate3d(${triangleX}px,${triangleY}px,0)`;
+    customCursor.style.opacity = '1';
+    cursorVisible = true;
+
+    logoTimers.push(window.setTimeout(() => {
+      whatsappLogoExact?.classList.add('is-visible');
+      cursorPhase = 'logo-hold';
+      logoAnchorX = lastPointerX;
+      logoAnchorY = lastPointerY;
+    },525));
+  }
+
+  function releaseWhatsappLogo(pointerX,pointerY){
+    if(!customCursor || cursorPhase !== 'logo-hold') return;
+    playScatterCue();
+
+    /* Primer gesto tras el logo: las piezas salen, pero el triángulo se queda
+       exactamente donde estaba. El fondo regresa YA al gris mediante la transición. */
+    cursorPhase = 'triangle-ready';
+    secondActionAnchorX = pointerX;
+    secondActionAnchorY = pointerY;
+    secondActionReadyAt = performance.now() + 220;
+    prepareWhatsappScatter();
+    whatsappLogoExact?.classList.add('is-scattering');
+    customCursor.classList.add('is-post-logo');
+    customCursor.style.transition = '';
+    applyTheme('none');
+
+    logoTimers.push(window.setTimeout(() => {
+      whatsappLogoExact?.classList.remove('is-visible','is-scattering');
+    },1480));
+  }
+
+  function syncNormalInteractionToPointer(){
+    if(!finePointer.matches || cursorPhase !== 'normal') return;
+    const hit = document.elementFromPoint(lastPointerX,lastPointerY);
+    const hitTab = hit?.closest?.('.channel-tab');
+    if(hitTab){
+      const index = tabs.indexOf(hitTab);
+      if(index >= 0){
+        hoveredIndex = index;
+        setCursorMode('folio',hitTab.dataset.social);
+        setActive(index,{source:'hover'});
+        return;
+      }
+    }
+    setCursorMode('square');
+    clearActive({source:'pointer'});
+  }
+
+  function morphTriangleToSquare(targetX,targetY){
+    if(!customCursor || cursorPhase !== 'triangle-ready') return;
+    playMorphCue();
+    cursorPhase = 'morphing';
+    customCursor.style.transition = 'transform 620ms cubic-bezier(.22,.74,.18,1)';
+    customCursor.classList.remove('is-logo-flight');
+    customCursor.classList.add('is-post-logo');
+    void customCursor.offsetWidth;
+    customCursor.classList.add('is-returning-square');
+    placeCursor(targetX,targetY);
+
+    morphFinishTimer = window.setTimeout(() => {
+      cursorPhase = 'normal';
+      lockFolioInteractions(false);
+      customCursor.classList.remove('is-post-logo','is-logo-flight','is-returning-square','is-over-folio');
+      customCursor.style.transition = '';
+      placeCursor(lastPointerX,lastPointerY);
+      syncNormalInteractionToPointer();
+      scheduleRedirect('whatsapp', reducedMotion.matches ? 80 : 140);
+    },650);
+  }
+
+  function moveCursor(event){
+    if(!finePointer.matches || !customCursor) return;
+    lastPointerX = event.clientX;
+    lastPointerY = event.clientY;
+
+    if(cursorPhase === 'logo-hold'){
+      if(Math.hypot(event.clientX-logoAnchorX,event.clientY-logoAnchorY) > 7){
+        releaseWhatsappLogo(event.clientX,event.clientY);
+      }
+      return;
+    }
+
+    if(cursorPhase === 'triangle-ready'){
+      if(performance.now() >= secondActionReadyAt && Math.hypot(event.clientX-secondActionAnchorX,event.clientY-secondActionAnchorY) > 14){
+        morphTriangleToSquare(event.clientX,event.clientY);
+      }
+      return;
+    }
+
+    if(cursorPhase === 'morphing'){
+      /* Mientras cambia de forma, sigue persiguiendo el puntero real con la misma
+         dirección, sin compensaciones ni movimiento invertido. */
+      placeCursor(event.clientX,event.clientY);
+      return;
+    }
+
+    if(cursorPhase !== 'normal') return;
+    placeCursor(event.clientX,event.clientY);
+    if(!cursorVisible){
+      customCursor.style.opacity = '1';
+      cursorVisible = true;
+    }
+  }
+
+  document.addEventListener('pointerdown',() => { getAudioContext(); },{once:true,capture:true});
+
+  if(customCursor){
+    customCursor.style.opacity = '0';
+    window.addEventListener('pointermove',moveCursor,{passive:true});
+    window.addEventListener('pointerdown',event => {
+      if(!finePointer.matches) return;
+      lastPointerX = event.clientX;
+      lastPointerY = event.clientY;
+      if(cursorPhase === 'logo-hold'){
+        releaseWhatsappLogo(event.clientX,event.clientY);
+      }else if(cursorPhase === 'triangle-ready' && performance.now() >= secondActionReadyAt){
+        morphTriangleToSquare(event.clientX,event.clientY);
+      }
+    },{passive:true});
+    document.documentElement.addEventListener('pointerleave',() => {
+      if(cursorPhase !== 'normal') return;
+      customCursor.style.opacity = '0';
+      cursorVisible = false;
+    });
+    document.documentElement.addEventListener('pointerenter',event => {
+      if(!finePointer.matches) return;
+      lastPointerX = event.clientX;
+      lastPointerY = event.clientY;
+      if(cursorPhase === 'normal') moveCursor(event);
+    });
+  }
+
+  function cancelMobileLogoOrbit(){
+    clearTimeout(mobileOrbitStartTimer);
+    mobileOrbitStartTimer = 0;
+    mobilePieceAnimations.forEach(animation => {
+      try{ animation.cancel(); }catch(_){ }
+    });
+    mobilePieceAnimations = [];
+    mobileWhatsappSpecial?.classList.remove('is-orbiting');
+    mobileWhatsappSpecial?.querySelectorAll('.mobile-whatsapp-piece').forEach(piece => {
+      piece.style.transform = '';
+    });
+  }
+
+  function buildOrganicOrbitFrames(pieceKey, logoSize){
+    const geometry = {
+      q1:{cx:241.5,cy:241.5,direction:1,maxRadius:3.05,ellipticX:.10,ellipticY:-.06,wave:.018,phase:.2,preOffset:.16},
+      tri:{cx:465.5,cy:239.75,direction:1,maxRadius:3.38,ellipticX:-.06,ellipticY:.08,wave:.017,phase:.95,preOffset:.1},
+      d:{cx:467.39,cy:458.5,direction:1,maxRadius:3.72,ellipticX:-.04,ellipticY:-.08,wave:.016,phase:1.75,preOffset:.14},
+      q2:{cx:241.5,cy:458.5,direction:1,maxRadius:4.06,ellipticX:.08,ellipticY:.04,wave:.015,phase:2.55,preOffset:.18}
+    }[pieceKey];
+    if(!geometry) return [];
+
+    const center = 350;
+    const scale = logoSize / 700;
+    const vx = geometry.cx - center;
+    const vy = geometry.cy - center;
+    const baseRadius = Math.hypot(vx,vy);
+    const startAngle = Math.atan2(vy,vx);
+    const maxRadius = baseRadius * geometry.maxRadius;
+    const frames = [];
+    const steps = 42;
+
+    const smooth = value => value * value * (3 - 2 * value);
+    const tf = (x,y) => `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0)`;
+
+    for(let i=0;i<=steps;i++){
+      const t = i / steps;
+      let angleProgress;
+      let radius;
+      let orbitBlend;
+
+      if(t < .18){
+        const u = smooth(t / .18);
+        angleProgress = .08 * u;
+        radius = baseRadius + (maxRadius - baseRadius) * u;
+        orbitBlend = u;
+      }else if(t < .82){
+        const u = (t - .18) / .64;
+        angleProgress = .08 + .84 * u;
+        const breathing = 1 + geometry.wave * Math.sin((u * Math.PI * 2) + geometry.phase);
+        radius = maxRadius * breathing;
+        orbitBlend = 1;
+      }else{
+        const u = smooth((t - .82) / .18);
+        angleProgress = .92 + .08 * u;
+        radius = maxRadius + (baseRadius - maxRadius) * u;
+        orbitBlend = 1 - u;
+      }
+
+      const angle = startAngle + geometry.direction * Math.PI * 2 * angleProgress;
+      const xScale = 1 + geometry.ellipticX * orbitBlend;
+      const yScale = 1 + geometry.ellipticY * orbitBlend;
+      const x = center + Math.cos(angle) * radius * xScale;
+      const y = center + Math.sin(angle) * radius * yScale;
+      const dx = (x - geometry.cx) * scale;
+      const dy = (y - geometry.cy) * scale;
+
+      frames.push({
+        offset: t * .86,
+        transform: tf(dx,dy),
+        easing: 'linear'
+      });
+    }
+
+    /* Antes de encajar: una micro maniobra sutil cerca del origen para que no
+       simplemente “caiga” en su sitio. */
+    const unitX = vx / Math.max(1,baseRadius);
+    const unitY = vy / Math.max(1,baseRadius);
+    const tangentX = -unitY;
+    const tangentY = unitX;
+    const pre = 7.5 + geometry.preOffset * 8;
+    const impact = 5.6;
+    frames.push(
+      {offset:.90,transform:tf(tangentX*pre,tangentY*pre),easing:'cubic-bezier(.2,.72,.22,1)'},
+      {offset:.945,transform:tf(-tangentX*(pre*.42),-tangentY*(pre*.42)),easing:'cubic-bezier(.2,.72,.22,1)'},
+      {offset:.972,transform:tf(-unitX*impact,-unitY*impact),easing:'cubic-bezier(.23,1,.32,1)'},
+      {offset:.988,transform:tf(unitX*1.9,unitY*1.9),easing:'cubic-bezier(.23,1,.32,1)'},
+      {offset:1,transform:tf(0,0)}
+    );
+    return frames;
+  }
+
+  function playOrganicMobileLogoOrbit(){
+    if(!mobileWhatsappSpecial || reducedMotion.matches) return 0;
+    cancelMobileLogoOrbit();
+    mobileWhatsappSpecial.classList.add('is-orbiting');
+    const logo = mobileWhatsappSpecial.querySelector('.mobile-whatsapp-special__logo');
+    const logoSize = logo?.getBoundingClientRect().width || 150;
+    const pieces = [
+      ['q1','.mobile-whatsapp-piece--q1'],
+      ['tri','.mobile-whatsapp-piece--tri'],
+      ['d','.mobile-whatsapp-piece--d'],
+      ['q2','.mobile-whatsapp-piece--q2']
+    ];
+    const duration = 560;
+
+    pieces.forEach(([key,selector]) => {
+      const piece = mobileWhatsappSpecial.querySelector(selector);
+      if(!piece || typeof piece.animate !== 'function') return;
+      const animation = piece.animate(buildOrganicOrbitFrames(key,logoSize),{
+        duration,
+        delay:0,
+        easing:'linear',
+        fill:'both'
+      });
+      mobilePieceAnimations.push(animation);
+    });
+    return duration;
+  }
+
+  function runMobileWhatsappSpecial(){
+    if(finePointer.matches || !mobileWhatsappSpecial) return;
+    clearTimeout(mobileWhatsappTimer);
+    cancelMobileLogoOrbit();
+    mobileWhatsappSpecial.classList.remove('is-visible','is-logo-visible','is-vibrating','is-orbiting');
+    page?.classList.remove('is-mobile-whatsapp-vibrating');
+    void mobileWhatsappSpecial.offsetWidth;
+
+    applyTheme('whatsapp-special');
+    mobileWhatsappSpecial.classList.add('is-visible','is-vibrating');
+    page?.classList.add('is-mobile-whatsapp-vibrating');
+
+    if(!reducedMotion.matches && 'vibrate' in navigator){
+      try{ navigator.vibrate([24,28,18,24,12]); }catch(_){ }
+    }
+
+    window.setTimeout(() => {
+      mobileWhatsappSpecial.classList.add('is-logo-visible');
+    }, reducedMotion.matches ? 0 : 120);
+
+    const orbitLead = reducedMotion.matches ? 0 : 420;
+    const orbitDuration = reducedMotion.matches ? 0 : 560;
+    mobileOrbitStartTimer = window.setTimeout(() => {
+      if(reducedMotion.matches) return;
+      playOrganicMobileLogoOrbit();
+    }, orbitLead);
+
+    mobileWhatsappTimer = window.setTimeout(() => {
+      mobileWhatsappSpecial.classList.remove('is-vibrating');
+      page?.classList.remove('is-mobile-whatsapp-vibrating');
+      mobileWhatsappSpecial.classList.remove('is-logo-visible','is-orbiting');
+      cancelMobileLogoOrbit();
+      window.setTimeout(() => {
+        mobileWhatsappSpecial.classList.remove('is-visible');
+        applyTheme(activeIndex === 4 ? 'whatsapp' : 'none');
+        scheduleRedirect('whatsapp', reducedMotion.matches ? 60 : 120);
+      }, reducedMotion.matches ? 0 : 220);
+    }, reducedMotion.matches ? 950 : orbitLead + orbitDuration + 420);
+  }
+
+  function activateFolioFromClick(index){
+    const tab = tabs[index];
+    if(!tab) return;
+    const social = tab.dataset.social;
+    if(finePointer.matches && cursorPhase !== 'normal') return;
+    dismissSocialGuide();
+
+    if(social === 'whatsapp') playWhatsappCue();
+    else playFolioTap(social);
+
+    cancelRedirect();
+
+    if(social === 'behance'){
+      pulseFolio(index);
+      openBehanceMaintenance();
+      return;
+    }
+
+    if(finePointer.matches){
+      if(activeIndex !== index) setActive(index,{source:'pointer'});
+      if(social === 'whatsapp'){
+        pressWhatsappFolio(index);
+        runWhatsappSpecial();
+      }else{
+        pulseFolio(index);
+        if(socialDestinations[social]){
+          scheduleRedirect(social, reducedMotion.matches ? 120 : 620);
+        }
+      }
+      return;
+    }
+
+    setActive(index,{source:'pointer',commit:true});
+    if(social === 'whatsapp'){
+      pressWhatsappFolio(index);
+      runMobileWhatsappSpecial();
+    }else{
+      pulseFolio(index);
+      if(socialDestinations[social]){
+        scheduleRedirect(social, reducedMotion.matches ? 120 : 620);
+      }
+    }
+  }
+
+  tabs.forEach((tab,index) => {
+    tab.addEventListener('click',() => activateFolioFromClick(index));
+
+    tab.addEventListener('pointerenter',() => {
+      if(!finePointer.matches || isSequenceLocked()) return;
+      hoveredIndex = index;
+      setCursorMode('folio',tab.dataset.social);
+      updateSocialGuide(tab.dataset.social,index);
+      clearTimeout(hoverTimer);
+      hoverTimer = window.setTimeout(() => {
+        if(cursorPhase === 'normal' && hoveredIndex === index) setActive(index,{source:'hover'});
+      },45);
+    });
+
+    tab.addEventListener('pointerleave',event => {
+      if(!finePointer.matches || isSequenceLocked()) return;
+      clearTimeout(hoverTimer);
+      const related = event.relatedTarget;
+      if(related && related.closest?.(`#panel-${tab.dataset.social}`)) return;
+      hoveredIndex = -1;
+      setCursorMode('square');
+      clearActive({source:'pointer'});
+      resetSocialGuide();
+    });
+
+    tab.addEventListener('keydown',event => {
+      if(finePointer.matches && cursorPhase !== 'normal') return;
+      let next = index;
+      if(event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+      else if(event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+      else if(event.key === 'Home') next = 0;
+      else if(event.key === 'End') next = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      setActive(next,{source:'keyboard',focus:true,commit:true});
+    });
+  });
+
+  panels.forEach((panel,index) => {
+    panel.addEventListener('click',event => {
+      /* La ficha completa comparte el mismo click que su pestaña compacta.
+         Los enlaces conservan su propia acción y no disparan dos interacciones. */
+      if(event.target.closest('.folio__action')) return;
+      if(index !== activeIndex) return;
+      activateFolioFromClick(index);
+    });
+
+    panel.addEventListener('pointerenter',() => {
+      if(!finePointer.matches || isSequenceLocked() || index !== activeIndex) return;
+      hoveredIndex = index;
+      setCursorMode('folio',tabs[index]?.dataset.social);
+      applyTheme(tabs[index]?.dataset.social);
+      updateSocialGuide(tabs[index]?.dataset.social,index);
+    });
+    panel.addEventListener('pointerleave',event => {
+      if(!finePointer.matches || isSequenceLocked()) return;
+      const related = event.relatedTarget;
+      if(related && related.closest?.(`#tab-${tabs[index]?.dataset.social}`)) return;
+      hoveredIndex = -1;
+      setCursorMode('square');
+      clearActive({source:'pointer'});
+      resetSocialGuide();
+    });
+  });
+
+  applyTheme('none');
+  setCursorMode('square');
+  clearActive({source:'pointer'});
+  window.setTimeout(showGuideIntro,380);
+
+  window.addEventListener('resize',() => {
+    cancelAnimationFrame(guideResizeFrame);
+    guideResizeFrame = requestAnimationFrame(() => {
+      if(guideDismissed) return;
+      placeGuideSafely(guideCurrentIndex,{instant:reducedMotion.matches});
+    });
+  },{passive:true});
+
+  document.addEventListener('keydown',event => {
+    if(event.key === 'Escape' && behanceMaintenance?.classList.contains('is-open')){
+      closeBehanceMaintenance();
+      return;
+    }
+    if(event.key !== 'Escape') return;
+    cancelRedirect();
+    committedIndex = -1;
+    hoveredIndex = -1;
+    clearLogoTimers();
+    cursorPhase = 'normal';
+    lockFolioInteractions(false);
+    whatsappLogoExact?.classList.remove('is-visible','is-scattering');
+    clearTimeout(mobileWhatsappTimer);
+    cancelMobileLogoOrbit();
+    mobileWhatsappSpecial?.classList.remove('is-visible','is-logo-visible','is-vibrating','is-orbiting');
+    page?.classList.remove('is-mobile-whatsapp-vibrating');
+    if(customCursor){
+      customCursor.classList.remove('is-logo-flight','is-post-logo','is-returning-square','is-over-folio');
+      customCursor.style.transition = '';
+      placeCursor(lastPointerX,lastPointerY);
+    }
+    setCursorMode('square');
+    clearActive({source:'keyboard'});
+  });
+
+  behanceMaintenanceReturn?.addEventListener('click',closeBehanceMaintenance);
+
+  actions.forEach((action,index) => {
+    const social = tabs[index]?.dataset.social || '';
+    const url = socialDestinations[social] || '';
+
+    if(social === 'behance'){
+      action.href = '#';
+      action.removeAttribute('aria-disabled');
+      action.removeAttribute('title');
+      action.tabIndex = 0;
+      action.addEventListener('click',event => {
+        event.preventDefault();
+        activateFolioFromClick(index);
+      });
+      return;
+    }
+
+    if(url){
+      action.href = url;
+      action.removeAttribute('aria-disabled');
+      action.removeAttribute('title');
+      action.tabIndex = 0;
+      action.addEventListener('click',event => {
+        event.preventDefault();
+        activateFolioFromClick(index);
+      });
+    }else{
+      action.href = '#';
+      action.setAttribute('aria-disabled','true');
+      action.tabIndex = -1;
+      action.title = 'Enlace pendiente';
+      action.addEventListener('click',event => event.preventDefault());
+    }
+  });
+})();
+</script>
+</body>
+</html>
