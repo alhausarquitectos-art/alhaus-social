@@ -896,7 +896,9 @@ a{color:inherit}
   transform:scale(2);
 }
 .social-guide.is-whatsapp-focus .social-guide__message{
-  margin-top:calc(8px + clamp(110px,9.5vw,150px));
+  position:absolute;
+  bottom:calc(100% + clamp(110px,9.5vw,150px) * .443 + 20px);
+  margin-top:0;
 }
 .guide-character-action{
   width:100%;
@@ -1408,6 +1410,30 @@ a{color:inherit}
 .behance-maintenance:not(.is-open) *{animation-play-state:paused!important}
 html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{animation-play-state:paused!important}
 
+
+/* Mobile mascot stays within the lower-right area of the selected card. */
+.social-guide.is-mobile-mascot{
+  left:var(--mobile-guide-x,0px);top:var(--mobile-guide-y,0px);
+  width:clamp(144px,36vw,180px);transform:none!important;
+  transition:opacity 180ms ease;z-index:90;
+}
+.social-guide.is-mobile-mascot .social-guide__character{
+  width:100%;max-width:none;aspect-ratio:1400/1500;transform:none;
+}
+.social-guide.is-mobile-mascot .social-guide__inner{transform:none}
+.social-guide.is-mobile-mascot .social-guide__message{display:none}
+.social-guide.is-mobile-mascot.is-mobile-intro{width:min(260px,68vw)}
+.social-guide.is-mobile-mascot.is-mobile-intro .social-guide__message{
+  display:block;width:100%;max-width:240px;font-size:15px;
+  line-height:1.4;margin-top:8px;color:var(--ink);
+}
+
+/* A soft sky-blue contour is part of the mascot in every state. */
+#guide-character-svg,
+#maintenance-character-svg{
+  filter:drop-shadow(1px 0 0 #9ed6f0) drop-shadow(-1px 0 0 #9ed6f0)
+         drop-shadow(0 1px 0 #9ed6f0) drop-shadow(0 -1px 0 #9ed6f0);
+}
 </style>
 </head>
 <body>
@@ -1770,7 +1796,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
   const tabs = [...document.querySelectorAll('[role="tab"]')];
   const panels = [...document.querySelectorAll('[role="tabpanel"]')];
   const actions = [...document.querySelectorAll('.folio__action')];
-  const finePointer = matchMedia('(hover:hover) and (pointer:fine)');
+  const finePointer = matchMedia('(min-width:761px) and (hover:hover) and (pointer:fine)');
   const themeMeta = document.querySelector('meta[name="theme-color"]');
   const customCursor = document.querySelector('.custom-cursor');
   const cursorTriangle = document.querySelector('.custom-cursor__shape--triangle');
@@ -1819,11 +1845,13 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
       text:'Proyectos, interiores, materialidad y avances.'
     },
     facebook:{
+      outline:true,
       action:'nod',
       emotion:'curioso',
       text:'Noticias y publicaciones del estudio.'
     },
     behance:{
+      outline:true,
       action:'shrink',
       emotion:'preocupado',
       text:'Proyectos completos. Behance está en mantenimiento.'
@@ -1884,7 +1912,11 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
       window.__ALHAUS_NAVIGATE__(url);
       return;
     }
-    window.location.assign(url);
+    if(finePointer.matches){
+      window.open(url,'_blank','noopener,noreferrer');
+    }else{
+      window.location.assign(url);
+    }
   }
 
   function scheduleRedirect(social,delay){
@@ -2190,6 +2222,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
 
   function applyGuideState(state){
     if(!state || !socialGuide) return;
+    socialGuide.classList.toggle('has-white-outline',Boolean(state.outline));
     setGuideEmotion(state.emotion);
     setGuideAction(state.action);
     if(guideMessage) guideMessage.textContent = state.text;
@@ -2206,11 +2239,48 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     socialGuide?.classList.remove('is-visible','is-teleporting','is-teleport-jump','is-whatsapp-focus');
   }
 
+  function configureMobileGuide(){
+    const mobile = !finePointer.matches;
+    if(mobile && socialGuide){
+      const rackBounds = document.querySelector('.rack').getBoundingClientRect();
+      const intro = socialGuide.classList.contains('is-mobile-intro');
+      const width = intro ? Math.min(260,window.innerWidth * .68) : Math.min(180,Math.max(144,window.innerWidth * .36));
+      const height = width * 1500 / 1400;
+      socialGuide.style.setProperty('--mobile-guide-x',`${intro ? rackBounds.left + (rackBounds.width - width)/2 : rackBounds.right - width}px`);
+      socialGuide.style.setProperty('--mobile-guide-y',`${intro ? rackBounds.top + (rackBounds.height - height - 58)/2 : rackBounds.bottom - height - 8}px`);
+    }
+    socialGuide?.classList.toggle('is-mobile-mascot',mobile);
+    document.querySelector('#guide-character-svg')?.setAttribute('viewBox',mobile ? '0 -360 1400 1500' : '0 -240 1400 1240');
+  }
+  function showMobileGuide(social,index){
+    if(finePointer.matches || !socialGuide || !guideSocialMap[social]) return;
+    socialGuide.classList.remove('is-mobile-intro');
+    configureMobileGuide();
+    guideDismissed = false;
+    guideCurrentIndex = index;
+    clearTimeout(guideMobileTimer);
+    socialGuide.classList.remove('is-whatsapp-focus');
+    applyGuideState(guideSocialMap[social]);
+    socialGuide.classList.add('is-visible');
+    guideMobileTimer = window.setTimeout(()=>socialGuide.classList.remove('is-visible'),4500);
+  }
+  configureMobileGuide();
+  finePointer.addEventListener('change',()=>{configureMobileGuide();hideSocialGuide();});
+
   function showGuideIntro(){
     if(!socialGuide || guideDismissed) return;
     guideCurrentIndex = -1;
     socialGuide.classList.remove('is-whatsapp-focus');
     applyGuideState(guideIntroState);
+    if(!finePointer.matches){
+      clearTimeout(guideMobileTimer);
+      socialGuide.classList.add('is-mobile-intro');
+      configureMobileGuide();
+      guideMessage.textContent = 'Elija una red social para continuar.';
+      socialGuide.classList.add('is-visible');
+      return;
+    }
+    socialGuide.classList.remove('is-mobile-intro');
     const shown = placeGuideSafely(-1,{instant:true});
     if(shown && !finePointer.matches){
       clearTimeout(guideMobileTimer);
@@ -2305,18 +2375,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     clearTimeout(guideRecheckTimer);
     clearTimeout(guideMobileTimer);
 
-    if(finePointer.matches){
-      const hit = document.elementFromPoint(lastPointerX,lastPointerY);
-      const tab = hit?.closest?.('.channel-tab');
-      const panel = hit?.closest?.('[role="tabpanel"]');
-      let index = tab ? tabs.indexOf(tab) : panel ? panels.indexOf(panel) : -1;
-      if(index >= 0 && tabs[index]){
-        hoveredIndex = index;
-        updateSocialGuide(tabs[index].dataset.social,index);
-        return;
-      }
-      hoveredIndex = -1;
-    }
+    hoveredIndex = -1;
 
     showGuideIntro();
   }
@@ -2325,12 +2384,16 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     if(!behanceMaintenance) return;
     behanceMaintenance.classList.remove('is-open');
     behanceMaintenance.setAttribute('aria-hidden','true');
+    cancelRedirect();
+    committedIndex = -1;
+    clearActive({source:'pointer'});
+    hideSocialGuide();
     window.setTimeout(() => {
       if(behanceMaintenance.classList.contains('is-open')) return;
       behanceMaintenance.setAttribute('inert','');
       resumeSocialGuideAfterMaintenance();
     },230);
-    document.getElementById('tab-behance')?.focus({preventScroll:true});
+    tabs[0]?.focus({preventScroll:true});
   }
 
   function softTone(frequency,{delay=0,duration=.06,volume=.018,type='sine'}={}){
@@ -2923,14 +2986,14 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     if(!tab) return;
     const social = tab.dataset.social;
     if(finePointer.matches && cursorPhase !== 'normal') return;
-    dismissSocialGuide();
+    if(finePointer.matches) dismissSocialGuide();
 
     if(social === 'whatsapp') playWhatsappCue();
     else playFolioTap(social);
 
     cancelRedirect();
 
-    if(social === 'behance'){
+    if(social === 'behance' && finePointer.matches){
       pulseFolio(index);
       openBehanceMaintenance();
       return;
@@ -2938,19 +3001,21 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
 
     if(finePointer.matches){
       if(activeIndex !== index) setActive(index,{source:'pointer'});
-      if(social === 'whatsapp'){
-        pressWhatsappFolio(index);
-        runWhatsappSpecial();
-      }else{
-        pulseFolio(index);
-        if(socialDestinations[social]){
-          scheduleRedirect(social, reducedMotion.matches ? 120 : 620);
-        }
-      }
+      pulseFolio(index);
+      // Open synchronously from the click so popup blockers preserve the gesture.
+      navigateTo(socialDestinations[social]);
       return;
     }
 
+    const alreadySelected = committedIndex === index && activeIndex === index;
     setActive(index,{source:'pointer',commit:true});
+    showMobileGuide(social,index);
+    if(!alreadySelected) return;
+    if(social === 'behance'){
+      pulseFolio(index);
+      openBehanceMaintenance();
+      return;
+    }
     if(social === 'whatsapp'){
       pressWhatsappFolio(index);
       runMobileWhatsappSpecial();
@@ -3036,7 +3101,8 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     cancelAnimationFrame(guideResizeFrame);
     guideResizeFrame = requestAnimationFrame(() => {
       if(guideDismissed) return;
-      placeGuideSafely(guideCurrentIndex,{instant:reducedMotion.matches});
+      if(finePointer.matches) placeGuideSafely(guideCurrentIndex,{instant:reducedMotion.matches});
+      else configureMobileGuide();
     });
   },{passive:true});
 
@@ -3106,3 +3172,4 @@ document.addEventListener('visibilitychange',()=>document.documentElement.classL
 </script>
 </body>
 </html>
+
