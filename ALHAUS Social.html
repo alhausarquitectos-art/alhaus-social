@@ -1434,6 +1434,100 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
   filter:drop-shadow(1px 0 0 #9ed6f0) drop-shadow(-1px 0 0 #9ed6f0)
          drop-shadow(0 1px 0 #9ed6f0) drop-shadow(0 -1px 0 #9ed6f0);
 }
+
+/* Brand and guidance typography only; folder typography stays unchanged. */
+:root{
+  --brand-type:"Century Gothic","Avenir Next","Futura",Arial,sans-serif;
+  --annotation-type:"Consolas","SFMono-Regular","Menlo",monospace;
+}
+.brand__name{
+  font-family:var(--brand-type);font-weight:600;
+  font-size:clamp(24px,2.1vw,32px);letter-spacing:.12em;line-height:1;
+}
+.brand{gap:8px}
+.brand__scope{
+  font-family:var(--annotation-type);font-size:10.5px;
+  font-weight:400;letter-spacing:.025em;line-height:1.5;opacity:.8;
+}
+.header__label{
+  font-family:var(--annotation-type);font-size:10px;
+  font-weight:400;letter-spacing:.09em;line-height:1.5;opacity:.8;
+}
+.status{
+  font-family:var(--annotation-type);font-size:10.5px;
+  letter-spacing:.025em;line-height:1.5;
+}
+.social-guide__message,
+.social-guide.is-mobile-mascot.is-mobile-intro .social-guide__message{
+  font-family:var(--brand-type);font-weight:500;
+  font-size:13px;letter-spacing:.015em;line-height:1.5;
+}
+.brand-mark{
+  position:absolute;right:clamp(24px,3.3vw,54px);
+  bottom:clamp(24px,3.4vh,40px);width:42px;height:42px;
+  color:var(--ink);opacity:.8;z-index:65;pointer-events:none;
+}
+.brand-mark svg{width:100%;height:100%;display:block}
+@media(max-width:760px){
+  .header{gap:12px;padding-right:38px;min-height:46px}
+  .brand{gap:5px;max-width:65%}
+  .brand__name{font-size:24px;letter-spacing:.1em}
+  .brand__scope{font-size:9px;max-width:25ch;line-height:1.35}
+  .header__label{font-size:8px;letter-spacing:.025em;line-height:1.4;margin-top:3px}
+  .brand-mark{top:20px;right:20px;bottom:auto;width:26px;height:26px}
+  .social-guide.is-mobile-mascot.is-mobile-intro .social-guide__message{
+    font-size:15px;max-width:230px;
+  }
+}
+
+
+/* Review proposal: a restrained architectural drawing surface. */
+:root{--ease-paper:var(--ease-out)}
+.page::after{
+  content:"";position:absolute;inset:18px;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(242,241,237,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(242,241,237,.025) 1px,transparent 1px);
+  background-size:56px 56px;opacity:0;transition:opacity 180ms ease;
+}
+:root[data-social="none"] .page::after{opacity:1}
+.header__label{opacity:.88}
+.status{color:var(--ink);opacity:.72}
+.folio{transition-duration:320ms}
+.folio__action:focus-visible{outline:2px solid currentColor;outline-offset:6px}
+.social-guide.is-desktop-intro{width:260px}
+.social-guide.is-desktop-intro .social-guide__character{width:230px;max-width:none}
+.social-guide.is-desktop-intro .social-guide__message{
+  width:240px;max-width:240px;font-size:16px;line-height:1.45;margin-top:12px;
+}
+.interaction-hint{display:none}
+.behance-maintenance__copy{
+  font-family:var(--brand-type);font-size:14px;line-height:1.55;
+  max-width:30ch;text-wrap:balance;color:inherit;opacity:.8;margin:16px auto 0;
+}
+.behance-maintenance__return.button-29{
+  font-family:var(--annotation-type);letter-spacing:.02em;border-radius:4px;box-shadow:none;min-width:180px;
+}
+@media(max-width:760px){
+  .page::after{inset:10px;background-size:40px 40px}
+  .channel-tab::after{opacity:.88}
+  .channel-tab[aria-selected="true"]::before{
+    top:auto;bottom:5px;left:20%;right:20%;height:2px;
+    background:#fff;z-index:3;opacity:.7;
+  }
+  .channel-tab[data-social="tiktok"][aria-selected="true"]::before{background:#171815}
+  .interaction-hint{
+    display:block;position:absolute;left:18px;right:18px;bottom:82px;
+    z-index:72;text-align:center;margin:0;pointer-events:none;
+    font-family:var(--annotation-type);font-size:10px;line-height:1.25;
+    letter-spacing:.01em;color:var(--ink);opacity:.78;
+  }
+  .behance-maintenance__copy{font-size:13px;max-width:29ch}
+}
+@media(prefers-reduced-motion:reduce){
+  .page::after{transition:none}
+  .folio{transition:none}
+}
+
 </style>
 </head>
 <body>
@@ -1538,6 +1632,17 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
       <button class="channel-tab" id="tab-whatsapp" type="button" role="tab" data-index="4" data-social="whatsapp" aria-controls="panel-whatsapp" aria-selected="false" tabindex="-1"><span class="channel-tab__label">WhatsApp</span></button>
     </div>
   </section>
+
+
+  <p class="interaction-hint" aria-live="polite">Un toque para explorar · otro para abrir</p>
+  <div class="brand-mark" aria-label="Isotipo de ALHAUS" role="img">
+    <svg viewBox="140 140 440 420" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="miter">
+      <rect x="163.5" y="163.5" width="156" height="156"/>
+      <path d="M465.5 164.5 L548.66 315 L382.34 315 Z"/>
+      <rect x="163.5" y="380.5" width="156" height="156"/>
+      <path d="M548.66 383.25 H467.39 A81.27 75.25 0 0 0 467.39 533.75 H548.66 Z"/>
+    </svg>
+  </div>
 
   <p class="status" aria-hidden="true"><span class="status__mouse">Pasa el cursor o haz clic en un folio</span><span class="status__touch">Toca un folio</span></p>
 </main>
@@ -1664,7 +1769,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
 </div>
 
 
-<section id="behance-maintenance" class="behance-maintenance" aria-hidden="true" inert>
+<section id="behance-maintenance" class="behance-maintenance" role="dialog" aria-modal="true" aria-label="Behance en mantenimiento" aria-hidden="true" inert>
   <div class="behance-maintenance__content">
     <div class="behance-maintenance__character" aria-label="Mascota azul sorprendida saltando">
       <div class="maintenance-character-action maintenance-action-jump">
@@ -1748,8 +1853,9 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
       </div>
     </div>
     <h2 class="behance-maintenance__title">EN MANTENIMIENTO</h2>
-    <button class="behance-maintenance__return button-29" type="button" aria-label="Regresar a redes">
-      <span class="behance-maintenance__return-label">REGRESAR</span>
+    <p class="behance-maintenance__copy">Mientras tanto, puedes encontrarnos en las otras redes.</p>
+    <button class="behance-maintenance__return button-29" type="button" aria-label="Volver al inicio">
+      <span class="behance-maintenance__return-label">Volver al inicio</span>
     </button>
   </div>
 </section>
@@ -2032,6 +2138,10 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
       add(activeRect.right + 22,topY);
       add(activeRect.left - width - 22,topY);
     }else{
+      const rackBounds = document.querySelector('.rack').getBoundingClientRect();
+      const peek = parseFloat(getComputedStyle(scene).getPropertyValue('--peek')) || 128;
+      const availableBottom = rackBounds.bottom - peek;
+      add(centerX,Math.max(topY,topY+(availableBottom-topY-height)/2));
       add(centerX,topY);
     }
 
@@ -2254,12 +2364,13 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
   }
   function showMobileGuide(social,index){
     if(finePointer.matches || !socialGuide || !guideSocialMap[social]) return;
-    socialGuide.classList.remove('is-mobile-intro');
+    socialGuide.classList.remove('is-mobile-intro','is-desktop-intro');
     configureMobileGuide();
     guideDismissed = false;
     guideCurrentIndex = index;
     clearTimeout(guideMobileTimer);
     socialGuide.classList.remove('is-whatsapp-focus');
+    socialGuide.classList.remove('is-desktop-intro');
     applyGuideState(guideSocialMap[social]);
     socialGuide.classList.add('is-visible');
     guideMobileTimer = window.setTimeout(()=>socialGuide.classList.remove('is-visible'),4500);
@@ -2272,6 +2383,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     guideCurrentIndex = -1;
     socialGuide.classList.remove('is-whatsapp-focus');
     applyGuideState(guideIntroState);
+    socialGuide.classList.toggle('is-desktop-intro',finePointer.matches);
     if(!finePointer.matches){
       clearTimeout(guideMobileTimer);
       socialGuide.classList.add('is-mobile-intro');
@@ -2317,6 +2429,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     clearTimeout(guidePlaceTimer);
     clearTimeout(guideRecheckTimer);
     guideCurrentIndex = index;
+    socialGuide.classList.remove('is-desktop-intro');
     applyGuideState(guideSocialMap[social]);
 
     const whatsappFocus = social === 'whatsapp';
@@ -2348,6 +2461,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
       guideCurrentIndex = -1;
       socialGuide.classList.remove('is-whatsapp-focus');
       applyGuideState(guideIntroState);
+      socialGuide.classList.add('is-desktop-intro');
       placeGuideSafely(-1);
     },250);
   }
@@ -2360,6 +2474,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     cancelRedirect();
     dismissSocialGuide();
     if(!behanceMaintenance) return;
+    page?.setAttribute('inert','');
     behanceMaintenance.removeAttribute('inert');
     behanceMaintenance.setAttribute('aria-hidden','false');
     void behanceMaintenance.offsetWidth;
@@ -2384,6 +2499,7 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
     if(!behanceMaintenance) return;
     behanceMaintenance.classList.remove('is-open');
     behanceMaintenance.setAttribute('aria-hidden','true');
+    page?.removeAttribute('inert');
     cancelRedirect();
     committedIndex = -1;
     clearActive({source:'pointer'});
@@ -2564,6 +2680,8 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
 
   function collapseFolios({keepTheme=false}={}){
     activeIndex = -1;
+    const hint = document.querySelector('.interaction-hint');
+    if(hint) hint.textContent = 'Un toque para explorar · otro para abrir';
     hoveredIndex = -1;
     clearTimeout(hoverTimer);
     panels.forEach(panel => {
@@ -2591,6 +2709,8 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
       activeIndex = index;
       if(commit) committedIndex = index;
       const social = tabs[index].dataset.social;
+      const hint = document.querySelector('.interaction-hint');
+      if(hint) hint.textContent = social === 'behance' ? 'Otro toque para ver el estado de Behance' : `Otro toque para abrir ${tabs[index].textContent.trim()}`;
       applyTheme(social);
       panels.forEach((panel,i) => {
         const selected = i === index;
@@ -3107,6 +3227,11 @@ html.is-page-hidden .social-guide *,html.is-page-hidden .behance-maintenance *{a
   },{passive:true});
 
   document.addEventListener('keydown',event => {
+    if(event.key === 'Tab' && behanceMaintenance?.classList.contains('is-open')){
+      event.preventDefault();
+      behanceMaintenanceReturn?.focus({preventScroll:true});
+      return;
+    }
     if(event.key === 'Escape' && behanceMaintenance?.classList.contains('is-open')){
       closeBehanceMaintenance();
       return;
